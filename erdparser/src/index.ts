@@ -4,7 +4,7 @@ import parseErdToRelational from "./parser";
 import saveErdPlusFile from "./saveErdplusFile";
 
 const inputFolder = 'data/tests'
-const fileName = 'test_Supertypes';
+const fileName = 'test_SupertypeRelationships';
 const outputFolder = 'data/tests/results';
 
 (async () => {

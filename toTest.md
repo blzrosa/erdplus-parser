@@ -14,6 +14,6 @@
 
 8. [V] Supertipos e herança de herança
 
-9. [ ] Relacionamento Supertipo
+9. [V] Relacionamento Supertipo
 
 10. [ ] Multivalorado Entidade Fraca
