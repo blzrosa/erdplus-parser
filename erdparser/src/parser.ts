@@ -184,7 +184,8 @@ function handle1NRelationship(
     node: RelationshipNode,
     oneDetails: EntityDetails,
     manyDetails: EntityDetails,
-    [nodeMap, edgeMap]: [Map<string, RelationalNode>, Map<string, RelationalEdge>]
+    [nodeMap, edgeMap]: [Map<string, RelationalNode>, Map<string, RelationalEdge>],
+    isOneToOne: boolean = false
 ) {
     const oneTable = nodeMap.get(oneDetails.id) as TableNode;  // "1" Side
     const manyTable = nodeMap.get(manyDetails.id) as TableNode; // "N" Side
@@ -192,8 +193,6 @@ function handle1NRelationship(
     const onePk = getFirstPk(oneTable.data.columns);
     if (!onePk) return;
 
-    const role = oneDetails.exactConstraints?.role;
-    const fkName = (role && role !== "") ? role : onePk.name;
     const isOptional = oneDetails.minCardinality === 'Optional';
 
     const fkProps: ForeignKeyProps = {
@@ -209,6 +208,10 @@ function handle1NRelationship(
         fkColumn.isPrimaryKey = true;
     }
 
+    if (isOneToOne) {
+        fkColumn.isUnique = true;
+    }
+
     fkColumn.position = manyTable.data.columns.length;
     manyTable.data.columns.push(fkColumn);
 
@@ -216,6 +219,7 @@ function handle1NRelationship(
     edgeMap.set(newEdge.id, newEdge);
 }
 
+// Add to the new uGroup
 function handleRelationshipNodes(nodes: Map<string, RelationshipNode>, [nodeMap, edgeMap]: [Map<string, RelationalNode>, Map<string, RelationalEdge>]) {
     for (const [id, node] of nodes) {
         const sourceDetails = node.data.sourceEntityDetails;
@@ -249,10 +253,9 @@ function handleRelationshipNodes(nodes: Map<string, RelationshipNode>, [nodeMap,
         else {
             // FK goes to the Optional side
             if (targetDetails.minCardinality === 'Optional') {
-                handle1NRelationship(node, sourceDetails, targetDetails, [nodeMap, edgeMap]);
+                handle1NRelationship(node, sourceDetails, targetDetails, [nodeMap, edgeMap], true);
             } else {
-                handle1NRelationship(node, targetDetails, sourceDetails, [nodeMap, edgeMap]);
-                // TODO: Add 'UNIQUE' constraint in the FK if both are mandatory
+                handle1NRelationship(node, targetDetails, sourceDetails, [nodeMap, edgeMap], true);
             }
         }
     }
@@ -264,10 +267,17 @@ function getAttributeFlags(flags: AttributeFlags): { [key: string]: boolean } {
     return flags;
 }
 
-function handleMultivaluedAttribute(
+function handleCompositeMultivaluedAttribute(
     node: AttributeNode,
     parentTable: TableNode,
     columnName: string,
+    cGroups: {
+        actualIndex: number;
+        parentMapper: Map<string, number>;
+        childrenMapper: Map<number, string[]>;
+    },
+    nodes: Map<string, AttributeNode>,
+    processedAttributes: Set<string>,
     [nodeMap, edgeMap]: [Map<string, RelationalNode>, Map<string, RelationalEdge>]
 ) {
     const newTable: TableNode = {
@@ -284,7 +294,7 @@ function handleMultivaluedAttribute(
         dragging: false,
         selected: false,
     };
-
+    
     const parentPk = getFirstPk(parentTable.data.columns);
     if (!parentPk) return;
 
@@ -293,26 +303,99 @@ function handleMultivaluedAttribute(
         sourceTableId: parentTable.id,
         columns: [toFkSimpleColumn(parentPk as TableColumn, parentTable)],
     };
-
     const fkColumn = createFkColumn(parentTable.data.label, parentPk.type, fkProps, false);
-    fkColumn.isPrimaryKey = true;
+    fkColumn.isPrimaryKey = true; // Part of the compose PK
     fkColumn.position = 0;
     newTable.data.columns.push(fkColumn);
 
-    const valueColumn: TableColumn = {
-        id: uuidv4(),
-        name: columnName,
-        position: 1,
-        type: 'None',
-        isPrimaryKey: true, // Part of the PK
-        isOptional: false,
-    } as TableColumn;
-    newTable.data.columns.push(valueColumn);
+    const cGroup = cGroups.parentMapper.get(node.id);
+    if (!cGroup) return;
+
+    const childrenIds = cGroups.childrenMapper.get(cGroup);
+    if (!childrenIds) return;
+
+    let currentPosition = 1;
+    for (const childId of childrenIds) {
+        const childNode = nodes.get(childId);
+        if (!childNode) continue;
+        const newColumn: TableColumn = {
+            id: childNode.id,
+            name: childNode.data.label.toLowerCase(),
+            position: currentPosition++,
+            type: 'None',
+            isPrimaryKey: true, // Part of the compose PK
+            isOptional: false,
+        } as TableColumn;
+        newTable.data.columns.push(newColumn);
+        processedAttributes.add(childId);
+    }
 
     nodeMap.set(newTable.id, newTable);
-
     const newEdge = createRelationalEdge(newTable, parentTable, fkProps);
     edgeMap.set(newEdge.id, newEdge);
+}
+
+function handleMultivaluedAttribute(
+    node: AttributeNode,
+    parentTable: TableNode,
+    columnName: string,
+    cGroups: {
+        actualIndex: number;
+        parentMapper: Map<string, number>;
+        childrenMapper: Map<number, string[]>;
+    },
+    nodes: Map<string, AttributeNode>,
+    processedAttributes: Set<string>,
+    [nodeMap, edgeMap]: [Map<string, RelationalNode>, Map<string, RelationalEdge>]
+) {
+    const flags = getAttributeFlags(node.data.types);
+    if (flags.Composite) {
+        handleCompositeMultivaluedAttribute(node, parentTable, columnName, cGroups, nodes, processedAttributes, [nodeMap, edgeMap]);
+    } else {
+        const newTable: TableNode = {
+            id: node.id,
+            type: 'Table',
+            data: {
+                label: `${parentTable.data.label}_${node.data.label}`,
+                columns: [],
+                isConnectable: true,
+                isSelected: false,
+            },
+            position: node.position,
+            measured: node.measured,
+            dragging: false,
+            selected: false,
+        };
+
+        const parentPk = getFirstPk(parentTable.data.columns);
+        if (!parentPk) return;
+
+        const fkProps: ForeignKeyProps = {
+            foreignKeyGroupId: uuidv4(),
+            sourceTableId: parentTable.id,
+            columns: [toFkSimpleColumn(parentPk as TableColumn, parentTable)],
+        };
+
+        const fkColumn = createFkColumn(parentTable.data.label, parentPk.type, fkProps, false);
+        fkColumn.isPrimaryKey = true;
+        fkColumn.position = 0;
+        newTable.data.columns.push(fkColumn);
+
+        const valueColumn: TableColumn = {
+            id: uuidv4(),
+            name: columnName,
+            position: 1,
+            type: 'None',
+            isPrimaryKey: true, // Part of the PK
+            isOptional: false,
+        } as TableColumn;
+        newTable.data.columns.push(valueColumn);
+
+        nodeMap.set(newTable.id, newTable);
+
+        const newEdge = createRelationalEdge(newTable, parentTable, fkProps);
+        edgeMap.set(newEdge.id, newEdge);
+    }
 }
 
 
@@ -396,27 +479,56 @@ function handleAttributeNodes(
     nodes: Map<string, AttributeNode>,
     [nodeMap, edgeMap]: [Map<string, RelationalNode>, Map<string, RelationalEdge>]
 ) {
+    // UNIQUE groups
     let uGroups = {
         actualIndex: 1 as Int,
         mapper: new Map() as Map<string, Int>,
     }
-    for (const [id, node] of nodes) {
-        if (getAttributeFlags(node.data.types).Unique) {
-            uGroups.mapper.set(id, uGroups.actualIndex++);
-        }
 
+    // Composite groups
+    let cGroups = {
+        actualIndex: 1 as Int,
+        parentMapper: new Map() as Map<string, Int>,
+        childrenMapper: new Map() as Map<Int, string[]>,
     }
+
+    for (const [id, node] of nodes) {
+        const nodeTypes = getAttributeFlags(node.data.types)
+        if (nodeTypes.Unique) uGroups.mapper.set(id, uGroups.actualIndex++);
+        if (nodeTypes.Composite) cGroups.parentMapper.set(id, cGroups.actualIndex++);
+    }
+
+    for (const [id, node] of nodes) {
+        const parentId = node.parentId;
+        if (!parentId) {
+            continue;
+        }
+        const parent = nodes.get(parentId)
+        if (!parent) {
+            continue;
+        }
+        const cGroup = cGroups.parentMapper.get(parentId);
+        if (!cGroup) {
+            continue;
+        }
+        const childrenArray = cGroups.childrenMapper.get(cGroup) || [];
+        childrenArray.push(id);
+        cGroups.childrenMapper.set(cGroup, childrenArray);
+    }
+
+    const processedAttributes: Set<string> = new Set();
+
 
     for (const [id, node] of nodes) {
         const flags = getAttributeFlags(node.data.types);
 
-        // Derived (ignore)
-        if (flags.Derived || isAnyParentDerived(nodes, id)) {
+        // Already processed
+        if (processedAttributes.has(id)) {
             continue;
         }
 
-        // Composite (ignore)
-        if (flags.Composite) {
+        // Derived (ignore)
+        if (flags.Derived || isAnyParentDerived(nodes, id)) {
             continue;
         }
         
@@ -440,7 +552,12 @@ function handleAttributeNodes(
 
         // Multivalued
         if (flags.Multivalued) {
-            handleMultivaluedAttribute(node, parentTable, columnName, [nodeMap, edgeMap]);
+            handleMultivaluedAttribute(node, parentTable, columnName, cGroups, nodes, processedAttributes, [nodeMap, edgeMap]);
+        }
+
+        // Composite and not Multivalued
+        else if (flags.Composite) {
+            continue
         }
 
         // Simple
