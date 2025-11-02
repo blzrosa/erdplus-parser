@@ -1,0 +1,558 @@
+import { Diagram, ErNode, Graph, RelationalEdge, RelationalNode,  LabelNode, EntityNode, AttributeNode, RelationshipNode, TableNode, TableColumn, SimpleColumn, ForeignKeyProps, SimpleDataType, EntityDetails, AttributeFlags, AttributeFlag, Int } from "./interfaces";
+import { v4 as uuidv4 } from 'uuid';
+
+enum DiagramTypes {
+    ER = 1,
+    Relational = 2,
+};
+
+
+function handleLabelNodes(nodes: Map<string, LabelNode>, [nodeMap, edgeMap]: [Map<string, RelationalNode>, Map<string, RelationalEdge>]) {
+    return;
+}
+
+function createBaseTableFromEntity(node: EntityNode): TableNode {
+    return {
+        id: node.id,
+        type: 'Table',
+        data: {
+            label: node.data.label,
+            columns: [],
+            isConnectable: true,
+            isSelected: false,
+        },
+        position: node.position,
+        measured: node.measured,
+        dragging: false,
+        selected: false,
+    };
+}
+
+function createPkColumn(name: string = 'id'): TableColumn {
+    return {
+        id: uuidv4(),
+        name: name,
+        position: 0,
+        type: 'INT',
+        isPrimaryKey: true,
+        isOptional: false,
+        isUnique: true
+    } as TableColumn;
+}
+
+function getFirstPk(columns: TableColumn[]): TableColumn | null {
+    for (const column of columns) {
+        if (column.isPrimaryKey) {
+            return column;
+        }
+    }
+    return null;
+}
+
+function createRelationalEdge(
+    targetTable: TableNode, // has the PK ("1" side)
+    sourceTable: TableNode, // has the FK ("N" side)
+    fkProps: ForeignKeyProps
+): RelationalEdge {
+    return {
+        id: `${sourceTable.id}->${targetTable.id}_${fkProps.foreignKeyGroupId}`,
+        type: 'Relational',
+        source: sourceTable.id,
+        target: targetTable.id,
+        targetHandle: `foreign-key-handle-${fkProps.foreignKeyGroupId}`,
+        markerStart: { type: 'arrow' },
+        data: { foreignKeyProps: fkProps },
+    };
+}
+
+function toFkSimpleColumn(column: TableColumn, target: TableNode): SimpleColumn {
+    return {
+        id: `fk_${column.id}`,
+        name: `fk_${target.data.label}`,
+        type: column.type,
+    } as SimpleColumn
+}
+
+function handleEntityNodes(nodes: Map<string, EntityNode>, [nodeMap, edgeMap]: [Map<string, RelationalNode>, Map<string, RelationalEdge>]) {
+    for (const [id, node] of nodes) {
+        const newTable: TableNode = createBaseTableFromEntity(node);
+        if (!node.data.parentId) {
+            newTable.data.columns.push(createPkColumn(`${newTable.data.label}_id`));
+        }
+        else {
+            const parentNode: EntityNode = nodes.get(node.data.parentId) as EntityNode;
+            newTable.data.columns.push(createPkColumn(`${parentNode.data.label}_id`))
+        }
+        nodeMap.set(id, newTable);
+    }
+
+    for (const [id, node] of nodes) {
+        if (node.data.parentId) {
+            // 1:1 -> BCNF
+            const table = nodeMap.get(id) as TableNode;
+            const parentTable = nodeMap.get(node.data.parentId) as TableNode;
+            const pkFkColumn = getFirstPk(table.data.columns);
+            if (!pkFkColumn) continue;
+            pkFkColumn.isForeignKey = true;
+            const fkProps = {
+                foreignKeyGroupId: uuidv4(),
+                sourceTableId: parentTable.id,
+                columns: [toFkSimpleColumn(getFirstPk(parentTable.data.columns) as TableColumn, parentTable)]
+            } as ForeignKeyProps;
+            pkFkColumn.foreignKeyProps = fkProps;
+            
+            // new Edge
+            const newEdge = createRelationalEdge(table, parentTable, fkProps);
+            edgeMap.set(newEdge.id, newEdge)
+        }
+    }
+}
+
+function createFkColumn(tableName: string, type: SimpleDataType, fkProps: ForeignKeyProps, isOptional: boolean): TableColumn {
+    const FkColumn: TableColumn = {
+            id: `fk_${uuidv4()}`,
+            name: `fk_${tableName}`,
+            type: type,
+            isForeignKey: true,
+            foreignKeyProps: fkProps
+        } as TableColumn;
+    if (isOptional) {
+        FkColumn.isOptional = true
+    }
+    return FkColumn;
+}
+
+function handleMNRelationship(
+    node: RelationshipNode,
+    sourceDetails: EntityDetails,
+    targetDetails: EntityDetails,
+    [nodeMap, edgeMap]: [Map<string, RelationalNode>, Map<string, RelationalEdge>]
+) {
+    const sourceTable = nodeMap.get(sourceDetails.id) as TableNode;
+    const targetTable = nodeMap.get(targetDetails.id) as TableNode;
+
+    const sourcePk = getFirstPk(sourceTable.data.columns);
+    const targetPk = getFirstPk(targetTable.data.columns);
+
+    if (!sourcePk || !targetPk) return;
+
+    // Creating Associative table
+    const newTable: TableNode = {
+        id: node.id,
+        type: 'Table',
+        data: {
+            label: node.data.label, // Relationship name
+            columns: [],
+            isConnectable: true,
+            isSelected: false,
+        },
+        position: node.position,
+        measured: node.measured,
+        dragging: false,
+        selected: false,
+    };
+
+    const fk1Props: ForeignKeyProps = {
+        foreignKeyGroupId: uuidv4(),
+        sourceTableId: sourceTable.id,
+        columns: [toFkSimpleColumn(sourcePk as TableColumn, sourceTable)],
+    };
+    const fk1Column = createFkColumn(sourceTable.data.label, sourcePk.type, fk1Props, false);
+    fk1Column.isPrimaryKey = true; // Part of the compose PK
+    fk1Column.position = 0;
+    newTable.data.columns.push(fk1Column);
+
+    const fk2Props: ForeignKeyProps = {
+        foreignKeyGroupId: uuidv4(),
+        sourceTableId: targetTable.id,
+        columns: [toFkSimpleColumn(targetPk as TableColumn, targetTable)],
+    };
+    const fk2Column = createFkColumn(targetTable.data.label, targetPk.type, fk2Props, false);
+    fk2Column.isPrimaryKey = true; // Part of the compose PK
+    fk2Column.position = 1;
+    newTable.data.columns.push(fk2Column);
+    
+    nodeMap.set(newTable.id, newTable);
+
+    const edge1 = createRelationalEdge(newTable, sourceTable, fk1Props);
+    const edge2 = createRelationalEdge(newTable, targetTable, fk2Props);
+    edgeMap.set(edge1.id, edge1);
+    edgeMap.set(edge2.id, edge2);
+}
+
+function handle1NRelationship(
+    node: RelationshipNode,
+    oneDetails: EntityDetails,
+    manyDetails: EntityDetails,
+    [nodeMap, edgeMap]: [Map<string, RelationalNode>, Map<string, RelationalEdge>]
+) {
+    const oneTable = nodeMap.get(oneDetails.id) as TableNode;  // "1" Side
+    const manyTable = nodeMap.get(manyDetails.id) as TableNode; // "N" Side
+
+    const onePk = getFirstPk(oneTable.data.columns);
+    if (!onePk) return;
+
+    const role = oneDetails.exactConstraints?.role;
+    const fkName = (role && role !== "") ? role : onePk.name;
+    const isOptional = oneDetails.minCardinality === 'Optional';
+
+    const fkProps: ForeignKeyProps = {
+        foreignKeyGroupId: uuidv4(),
+        sourceTableId: oneTable.id,
+        columns: [toFkSimpleColumn(onePk as TableColumn, oneTable)],
+    };
+
+    const fkColumn = createFkColumn(oneTable.data.label, onePk.type, fkProps, isOptional);
+    
+    // Weak Entity
+    if (node.data.isIdentifying) {
+        fkColumn.isPrimaryKey = true;
+    }
+
+    fkColumn.position = manyTable.data.columns.length;
+    manyTable.data.columns.push(fkColumn);
+
+    const newEdge = createRelationalEdge(manyTable, oneTable, fkProps);
+    edgeMap.set(newEdge.id, newEdge);
+}
+
+function handleRelationshipNodes(nodes: Map<string, RelationshipNode>, [nodeMap, edgeMap]: [Map<string, RelationalNode>, Map<string, RelationalEdge>]) {
+    for (const [id, node] of nodes) {
+        const sourceDetails = node.data.sourceEntityDetails;
+        const targetDetails = node.data.targetEntityDetails;
+
+        if (!sourceDetails || !targetDetails) {
+            continue;
+        }
+
+        const isSourceMany = sourceDetails.maxCardinality === 'Many';
+        const isTargetMany = targetDetails.maxCardinality === 'Many';
+
+        // M:N
+        if (isSourceMany && isTargetMany) {
+            handleMNRelationship(node, sourceDetails, targetDetails, [nodeMap, edgeMap]);
+        }
+        
+        // 1:N
+        else if (!isSourceMany && isTargetMany) {
+            // source is "1", target is "N"
+            handle1NRelationship(node, sourceDetails, targetDetails, [nodeMap, edgeMap]);
+        }
+        
+        // N:1
+        else if (isSourceMany && !isTargetMany) {
+            // source is "N", target is "1"
+            handle1NRelationship(node, targetDetails, sourceDetails, [nodeMap, edgeMap]);
+        }
+        
+        // 1:1
+        else {
+            // FK goes to the Optional side
+            if (targetDetails.minCardinality === 'Optional') {
+                handle1NRelationship(node, sourceDetails, targetDetails, [nodeMap, edgeMap]);
+            } else {
+                handle1NRelationship(node, targetDetails, sourceDetails, [nodeMap, edgeMap]);
+                // TODO: Add 'UNIQUE' constraint in the FK if both are mandatory
+            }
+        }
+    }
+}
+
+
+// Converts the array into an object
+function getAttributeFlags(flags: AttributeFlags): { [key: string]: boolean } {
+    return flags;
+}
+
+function handleMultivaluedAttribute(
+    node: AttributeNode,
+    parentTable: TableNode,
+    columnName: string,
+    [nodeMap, edgeMap]: [Map<string, RelationalNode>, Map<string, RelationalEdge>]
+) {
+    const newTable: TableNode = {
+        id: node.id,
+        type: 'Table',
+        data: {
+            label: `${parentTable.data.label}_${node.data.label}`,
+            columns: [],
+            isConnectable: true,
+            isSelected: false,
+        },
+        position: node.position,
+        measured: node.measured,
+        dragging: false,
+        selected: false,
+    };
+
+    const parentPk = getFirstPk(parentTable.data.columns);
+    if (!parentPk) return;
+
+    const fkProps: ForeignKeyProps = {
+        foreignKeyGroupId: uuidv4(),
+        sourceTableId: parentTable.id,
+        columns: [toFkSimpleColumn(parentPk as TableColumn, parentTable)],
+    };
+
+    const fkColumn = createFkColumn(parentTable.data.label, parentPk.type, fkProps, false);
+    fkColumn.isPrimaryKey = true;
+    fkColumn.position = 0;
+    newTable.data.columns.push(fkColumn);
+
+    const valueColumn: TableColumn = {
+        id: uuidv4(),
+        name: columnName,
+        position: 1,
+        type: 'None',
+        isPrimaryKey: true, // Part of the PK
+        isOptional: false,
+    } as TableColumn;
+    newTable.data.columns.push(valueColumn);
+
+    nodeMap.set(newTable.id, newTable);
+
+    const newEdge = createRelationalEdge(newTable, parentTable, fkProps);
+    edgeMap.set(newEdge.id, newEdge);
+}
+
+
+function isAnyParentDerived(
+    nodes: Map<string, AttributeNode>,
+    id: string
+): boolean {
+    let parentId = nodes.get(id)?.parentId;
+    if (!parentId) {
+        return false;
+    }
+    else {
+        let parent;
+        while (parentId) {
+            parent = nodes.get(parentId)
+            if (!parent) {
+                return false
+            }
+            if (getAttributeFlags(parent.data.types).Derived) {
+                return true;
+            }
+            parentId = parent?.parentId;            
+        }
+    }
+    return false;
+}
+
+function isAnyParentOptional(
+    nodes: Map<string, AttributeNode>,
+    id: string
+): boolean {
+    let parentId = nodes.get(id)?.parentId;
+    if (!parentId) {
+        return false;
+    }
+    else {
+        let parent;
+        while (parentId) {
+            parent = nodes.get(parentId)
+            if (!parent) {
+                return false
+            }
+            if (getAttributeFlags(parent.data.types).Optional) {
+                return true;
+            }
+            parentId = parent?.parentId;            
+        }
+    }
+    return false;
+}
+
+function getUGroups(
+    nodes: Map<string, AttributeNode>,
+    uGroups: { actualIndex: Int, mapper: Map<string, Int> },
+    id: string
+): Int[] {
+    const allGroups: Set<Int> = new Set()
+    let parentId = nodes.get(id)?.parentId;
+    if (!parentId) {
+        return [];
+    }
+    else {
+        let parent: AttributeNode | undefined;
+        let value: Int | undefined;
+        while (parentId) {
+            parent = nodes.get(parentId)
+            if (!parent) {
+                break
+            }
+            value = uGroups.mapper.get(parentId)
+            if (value) {
+                allGroups.add(value)
+            }
+            parentId = parent?.parentId;            
+        }
+    }
+    return Array.from(allGroups).sort()
+}
+
+function handleAttributeNodes(
+    nodes: Map<string, AttributeNode>,
+    [nodeMap, edgeMap]: [Map<string, RelationalNode>, Map<string, RelationalEdge>]
+) {
+    let uGroups = {
+        actualIndex: 1 as Int,
+        mapper: new Map() as Map<string, Int>,
+    }
+    for (const [id, node] of nodes) {
+        if (getAttributeFlags(node.data.types).Unique) {
+            uGroups.mapper.set(id, uGroups.actualIndex++);
+        }
+
+    }
+
+    for (const [id, node] of nodes) {
+        const flags = getAttributeFlags(node.data.types);
+
+        // Derived (ignore)
+        if (flags.Derived || isAnyParentDerived(nodes, id)) {
+            continue;
+        }
+
+        // Composite (ignore)
+        if (flags.Composite) {
+            continue;
+        }
+        
+        let parentId = node.parentId as string;
+        let parent = nodeMap.get(parentId) || nodes.get(parentId); // Table or Composite Attribute
+        let namePrefix = '';
+
+        // Gets the prefix and goes up until the entity if it exists
+        while (parent && parent.type === 'Attribute') {
+            const parentAttribute = parent as AttributeNode;
+            namePrefix = `${parentAttribute.data.label}_${namePrefix}`;
+            parentId = parentAttribute.parentId as string;
+            parent = nodeMap.get(parentId) || nodes.get(parentId);
+        }
+        if (!parent || parent.type !== 'Table') {
+            continue;
+        }
+
+        const parentTable = parent as TableNode;
+        const columnName = (namePrefix + node.data.label).toLowerCase();
+
+        // Multivalued
+        if (flags.Multivalued) {
+            handleMultivaluedAttribute(node, parentTable, columnName, [nodeMap, edgeMap]);
+        }
+
+        // Simple
+        else {
+            const newColumn: TableColumn = {
+                id: node.id,
+                name: columnName,
+                position: parentTable.data.columns.length,
+                type: 'None',
+                isPrimaryKey: false,
+                isOptional: flags.Optional || isAnyParentOptional(nodes, id),
+                isUnique: flags.Unique,
+                groupNumbers: getUGroups(nodes, uGroups, id)
+            } as TableColumn;
+
+            /*
+            Not needed, since all tables already have at least one PK
+            if (flags.Unique) {
+                 newColumn.isPrimaryKey = true;
+            }
+            */
+
+            parentTable.data.columns.push(newColumn);
+        }
+    }
+}
+
+function processNodes(
+    toProcess: 
+        {
+            labels: Map<string, LabelNode>,
+            entities: Map<string, EntityNode>,
+            relationships: Map<string, RelationshipNode>,
+            attributes: Map<string, AttributeNode>
+        },
+    [nodeMap, edgeMap]: [Map<string, RelationalNode>, Map<string, RelationalEdge>]
+    ) {
+        const maps: [Map<string, RelationalNode>, Map<string, RelationalEdge>] = [nodeMap, edgeMap];
+        handleLabelNodes(toProcess.labels, maps);
+        handleEntityNodes(toProcess.entities, maps);
+        handleRelationshipNodes(toProcess.relationships, maps);
+        handleAttributeNodes(toProcess.attributes, maps);
+    }
+
+
+// TODO
+function erdToRelationalMaps(erd: Diagram): [Map<string, RelationalNode>, Map<string, RelationalEdge>] {
+    const erdNodes: ErNode[] = erd.data.nodes as ErNode[];
+    const toProcess = {
+        labels: new Map() as Map<string, LabelNode>,
+        entities: new Map() as Map<string, EntityNode>,
+        relationships: new Map() as Map<string, RelationshipNode>,
+        attributes: new Map() as Map<string, AttributeNode>
+    }
+    for (const erdNode of erdNodes) {
+        switch (erdNode.type) {
+            case 'Label':
+                toProcess.labels.set(erdNode.id, erdNode)
+                break;
+            case 'Entity':
+                toProcess.entities.set(erdNode.id, erdNode)
+                break;
+            case 'Attribute':
+                toProcess.attributes.set(erdNode.id, erdNode)
+                break;
+            case 'Relationship':
+                toProcess.relationships.set(erdNode.id, erdNode)
+                break;
+        }
+    }
+    const [nodeMap, edgeMap]: [Map<string, RelationalNode>, Map<string, RelationalEdge>] = [new Map(), new Map()];
+    processNodes(toProcess, [nodeMap, edgeMap]);
+    return [nodeMap, edgeMap]
+}
+
+function buildRelationalNodesAndEdges(erd: Diagram): [RelationalNode[], RelationalEdge[]] {
+    let [nodeMap, edgeMap] = erdToRelationalMaps(erd);
+    
+    const parsed_nodes: RelationalNode[] = Array.from(nodeMap).map<RelationalNode>((tuple) => tuple[1]);
+    const parsed_edges: RelationalEdge[] = Array.from(edgeMap).map<RelationalEdge>((tuple) => tuple[1]);
+    return [parsed_nodes, parsed_edges];
+}
+
+function buildRelationalGraph(erd: Diagram): Graph {
+    const [parsed_nodes, parsed_edges]: [RelationalNode[], RelationalEdge[]] = buildRelationalNodesAndEdges(erd)
+    
+    const RelationalGraph = {
+        nodes: parsed_nodes,
+        edges: parsed_edges,
+        viewport: { x: 0.0, y: 0.0, zoom: 1.0 }
+    } as Graph
+    return RelationalGraph
+}
+
+function buildRelationalDiagram(erd: Diagram): Diagram {
+    const relationalGraph = buildRelationalGraph(erd)
+    return {
+        diagramType: DiagramTypes.Relational,
+        id: 0,
+        name: `${erd.name}_Relational`,
+        folder: erd.folder,
+        updatedAtTimestamp: String(Math.floor(Date.now() / 1000)),
+        data: relationalGraph,
+    } as Diagram;
+}
+1
+export default function parseErdToRelational(erd: Diagram): Diagram {
+    if (erd.diagramType === DiagramTypes.Relational) {
+        return erd;
+    }
+
+    const relationalParsed: Diagram = buildRelationalDiagram(erd);
+    return relationalParsed;
+
+}

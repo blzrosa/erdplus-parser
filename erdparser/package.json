@@ -1,0 +1,22 @@
+{
+  "name": "erdparser",
+  "version": "0.0.1",
+  "description": "An Entity-Relationship to Relational Diagram parser",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@types/node": "^24.9.2",
+    "@types/uuid": "^10.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "uuid": "^13.0.0"
+  }
+}
