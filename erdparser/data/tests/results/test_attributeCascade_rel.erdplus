@@ -1,0 +1,231 @@
+{
+  "diagramType": 2,
+  "id": 0,
+  "name": "test_attributeCascade_Relational",
+  "folder": {
+    "name": "TestesParser",
+    "folderType": 2,
+    "parentFolder": {
+      "depth": 0,
+      "id": 18722,
+      "name": "Diagrams",
+      "folderType": 1
+    },
+    "depth": 1,
+    "id": 120822
+  },
+  "updatedAtTimestamp": "1762095044",
+  "data": {
+    "nodes": [
+      {
+        "id": "cea9d1d0-2cb1-4ee6-b583-371aba83cdba",
+        "type": "Table",
+        "data": {
+          "label": "BaseEntity",
+          "columns": [
+            {
+              "id": "6bde2adf-abc2-4751-bc4b-67ca178309ba",
+              "name": "BaseEntity_id",
+              "position": 0,
+              "type": "INT",
+              "isPrimaryKey": true,
+              "isOptional": false,
+              "isUnique": true
+            },
+            {
+              "id": "e7ca12d2-c695-45f9-a706-54d705d0bcea",
+              "name": "l1_l1a2u_attribute_l1a2b2c1u",
+              "position": 1,
+              "type": "None",
+              "isPrimaryKey": false,
+              "isOptional": false,
+              "isUnique": true,
+              "groupNumbers": [
+                1
+              ]
+            },
+            {
+              "id": "98390602-5472-4f15-9cc0-9c3100d19df5",
+              "name": "l1_l1a1_l1a1b1o_l1a1b1c1",
+              "position": 2,
+              "type": "None",
+              "isPrimaryKey": false,
+              "isOptional": true,
+              "groupNumbers": []
+            },
+            {
+              "id": "916952ba-0b3a-432e-ba44-ca3fd1d186c5",
+              "name": "l1_l1a1_l1a1b1o_l1a1b2c2_l1a1b2c2d1",
+              "position": 3,
+              "type": "None",
+              "isPrimaryKey": false,
+              "isOptional": true,
+              "groupNumbers": []
+            }
+          ],
+          "isConnectable": true,
+          "isSelected": false
+        },
+        "position": {
+          "x": 756,
+          "y": 355
+        },
+        "measured": {
+          "width": 100,
+          "height": 50
+        },
+        "dragging": false,
+        "selected": false
+      },
+      {
+        "id": "0ebd78c5-48e0-4674-b696-2cfae9084256",
+        "type": "Table",
+        "data": {
+          "label": "BaseEntity_L1A2B1C1M",
+          "columns": [
+            {
+              "id": "fk_56140e98-ecde-44ac-990b-4c37dd0f8f7e",
+              "name": "fk_BaseEntity",
+              "type": "INT",
+              "isForeignKey": true,
+              "foreignKeyProps": {
+                "foreignKeyGroupId": "ef9f3779-f812-43aa-9f03-c44fdb410e5e",
+                "sourceTableId": "cea9d1d0-2cb1-4ee6-b583-371aba83cdba",
+                "columns": [
+                  {
+                    "id": "fk_6bde2adf-abc2-4751-bc4b-67ca178309ba",
+                    "name": "fk_BaseEntity",
+                    "type": "INT"
+                  }
+                ]
+              },
+              "isPrimaryKey": true,
+              "position": 0
+            },
+            {
+              "id": "0c2aec7a-44d1-4cce-aafe-09b4167389d2",
+              "name": "l1a2b1c1d1",
+              "position": 1,
+              "type": "None",
+              "isPrimaryKey": true,
+              "isOptional": false
+            }
+          ],
+          "isConnectable": true,
+          "isSelected": false
+        },
+        "position": {
+          "x": -171,
+          "y": 83.03957943517526
+        },
+        "measured": {
+          "width": 100,
+          "height": 50
+        },
+        "dragging": false,
+        "selected": false
+      },
+      {
+        "id": "c36f2d2d-4e45-44bb-8311-2373e0ee55c3",
+        "type": "Table",
+        "data": {
+          "label": "BaseEntity_L1A1B2C2D2M",
+          "columns": [
+            {
+              "id": "fk_a98c06b6-6de7-4fa4-99f9-4cab7a2b234a",
+              "name": "fk_BaseEntity",
+              "type": "INT",
+              "isForeignKey": true,
+              "foreignKeyProps": {
+                "foreignKeyGroupId": "fef38292-86ef-4c82-9c56-566b97f0d2c3",
+                "sourceTableId": "cea9d1d0-2cb1-4ee6-b583-371aba83cdba",
+                "columns": [
+                  {
+                    "id": "fk_6bde2adf-abc2-4751-bc4b-67ca178309ba",
+                    "name": "fk_BaseEntity",
+                    "type": "INT"
+                  }
+                ]
+              },
+              "isPrimaryKey": true,
+              "position": 0
+            },
+            {
+              "id": "c5530e6e-374d-4181-ae1b-edcabb2a0752",
+              "name": "l1_l1a1_l1a1b1o_l1a1b2c2_l1a1b2c2d2m",
+              "position": 1,
+              "type": "None",
+              "isPrimaryKey": true,
+              "isOptional": false
+            }
+          ],
+          "isConnectable": true,
+          "isSelected": false
+        },
+        "position": {
+          "x": -137.85924652772863,
+          "y": 136.1277733966894
+        },
+        "measured": {
+          "width": 100,
+          "height": 50
+        },
+        "dragging": false,
+        "selected": false
+      }
+    ],
+    "edges": [
+      {
+        "id": "cea9d1d0-2cb1-4ee6-b583-371aba83cdba->0ebd78c5-48e0-4674-b696-2cfae9084256_ef9f3779-f812-43aa-9f03-c44fdb410e5e",
+        "type": "Relational",
+        "source": "cea9d1d0-2cb1-4ee6-b583-371aba83cdba",
+        "target": "0ebd78c5-48e0-4674-b696-2cfae9084256",
+        "targetHandle": "foreign-key-handle-ef9f3779-f812-43aa-9f03-c44fdb410e5e",
+        "markerStart": {
+          "type": "arrow"
+        },
+        "data": {
+          "foreignKeyProps": {
+            "foreignKeyGroupId": "ef9f3779-f812-43aa-9f03-c44fdb410e5e",
+            "sourceTableId": "cea9d1d0-2cb1-4ee6-b583-371aba83cdba",
+            "columns": [
+              {
+                "id": "fk_6bde2adf-abc2-4751-bc4b-67ca178309ba",
+                "name": "fk_BaseEntity",
+                "type": "INT"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "id": "cea9d1d0-2cb1-4ee6-b583-371aba83cdba->c36f2d2d-4e45-44bb-8311-2373e0ee55c3_fef38292-86ef-4c82-9c56-566b97f0d2c3",
+        "type": "Relational",
+        "source": "cea9d1d0-2cb1-4ee6-b583-371aba83cdba",
+        "target": "c36f2d2d-4e45-44bb-8311-2373e0ee55c3",
+        "targetHandle": "foreign-key-handle-fef38292-86ef-4c82-9c56-566b97f0d2c3",
+        "markerStart": {
+          "type": "arrow"
+        },
+        "data": {
+          "foreignKeyProps": {
+            "foreignKeyGroupId": "fef38292-86ef-4c82-9c56-566b97f0d2c3",
+            "sourceTableId": "cea9d1d0-2cb1-4ee6-b583-371aba83cdba",
+            "columns": [
+              {
+                "id": "fk_6bde2adf-abc2-4751-bc4b-67ca178309ba",
+                "name": "fk_BaseEntity",
+                "type": "INT"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "viewport": {
+      "x": 0,
+      "y": 0,
+      "zoom": 1
+    }
+  }
+}

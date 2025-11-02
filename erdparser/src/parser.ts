@@ -40,18 +40,13 @@ function createPkColumn(name: string = 'id'): TableColumn {
     } as TableColumn;
 }
 
-function getFirstPk(columns: TableColumn[]): TableColumn | null {
-    for (const column of columns) {
-        if (column.isPrimaryKey) {
-            return column;
-        }
-    }
-    return null;
+function getPkColumns(columns: TableColumn[]): TableColumn[] {
+    return columns.filter(column => column.isPrimaryKey === true);
 }
 
 function createRelationalEdge(
-    targetTable: TableNode, // has the PK ("1" side)
-    sourceTable: TableNode, // has the FK ("N" side)
+    targetTable: TableNode, // has the FK ("N" side)
+    sourceTable: TableNode, // has the PK ("1" side)
     fkProps: ForeignKeyProps
 ): RelationalEdge {
     return {
@@ -73,7 +68,10 @@ function toFkSimpleColumn(column: TableColumn, target: TableNode): SimpleColumn 
     } as SimpleColumn
 }
 
-function handleEntityNodes(nodes: Map<string, EntityNode>, [nodeMap, edgeMap]: [Map<string, RelationalNode>, Map<string, RelationalEdge>]) {
+function handleEntityNodes(
+    nodes: Map<string, EntityNode>, 
+    [nodeMap, edgeMap]: [Map<string, RelationalNode>, Map<string, RelationalEdge>]
+) {
     for (const [id, node] of nodes) {
         const newTable: TableNode = createBaseTableFromEntity(node);
         if (!node.data.parentId) {
@@ -91,13 +89,13 @@ function handleEntityNodes(nodes: Map<string, EntityNode>, [nodeMap, edgeMap]: [
             // 1:1 -> BCNF
             const table = nodeMap.get(id) as TableNode;
             const parentTable = nodeMap.get(node.data.parentId) as TableNode;
-            const pkFkColumn = getFirstPk(table.data.columns);
+            const pkFkColumn = getPkColumns(table.data.columns)[0];
             if (!pkFkColumn) continue;
             pkFkColumn.isForeignKey = true;
             const fkProps = {
                 foreignKeyGroupId: uuidv4(),
                 sourceTableId: parentTable.id,
-                columns: [toFkSimpleColumn(getFirstPk(parentTable.data.columns) as TableColumn, parentTable)]
+                columns: [toFkSimpleColumn(getPkColumns(parentTable.data.columns)[0] as TableColumn, parentTable)]
             } as ForeignKeyProps;
             pkFkColumn.foreignKeyProps = fkProps;
             
@@ -108,10 +106,10 @@ function handleEntityNodes(nodes: Map<string, EntityNode>, [nodeMap, edgeMap]: [
     }
 }
 
-function createFkColumn(tableName: string, type: SimpleDataType, fkProps: ForeignKeyProps, isOptional: boolean): TableColumn {
+function createFkColumn(columnName: string, type: SimpleDataType, fkProps: ForeignKeyProps, isOptional: boolean): TableColumn {
     const FkColumn: TableColumn = {
             id: `fk_${uuidv4()}`,
-            name: `fk_${tableName}`,
+            name: columnName.toLowerCase(),
             type: type,
             isForeignKey: true,
             foreignKeyProps: fkProps
@@ -131,10 +129,10 @@ function handleMNRelationship(
     const sourceTable = nodeMap.get(sourceDetails.id) as TableNode;
     const targetTable = nodeMap.get(targetDetails.id) as TableNode;
 
-    const sourcePk = getFirstPk(sourceTable.data.columns);
-    const targetPk = getFirstPk(targetTable.data.columns);
+    const sourcePks = getPkColumns(sourceTable.data.columns);
+    const targetPks = getPkColumns(targetTable.data.columns);
 
-    if (!sourcePk || !targetPk) return;
+    if (sourcePks.length === 0 || targetPks.length === 0) return;
 
     // Creating Associative table
     const newTable: TableNode = {
@@ -152,25 +150,31 @@ function handleMNRelationship(
         selected: false,
     };
 
+    let currentPosition = 0
+
     const fk1Props: ForeignKeyProps = {
         foreignKeyGroupId: uuidv4(),
         sourceTableId: sourceTable.id,
-        columns: [toFkSimpleColumn(sourcePk as TableColumn, sourceTable)],
+        columns: sourcePks.map(pk => toFkSimpleColumn(pk, sourceTable)),
     };
-    const fk1Column = createFkColumn(sourceTable.data.label, sourcePk.type, fk1Props, false);
-    fk1Column.isPrimaryKey = true; // Part of the compose PK
-    fk1Column.position = 0;
-    newTable.data.columns.push(fk1Column);
+    for (const pk of sourcePks) {
+        const fkColumn = createFkColumn(pk.name, pk.type, fk1Props, false);
+        fkColumn.isPrimaryKey = true; // Part of the compose PK
+        fkColumn.position = currentPosition++;
+        newTable.data.columns.push(fkColumn);
+    }
 
     const fk2Props: ForeignKeyProps = {
         foreignKeyGroupId: uuidv4(),
         sourceTableId: targetTable.id,
-        columns: [toFkSimpleColumn(targetPk as TableColumn, targetTable)],
+        columns: targetPks.map(pk => toFkSimpleColumn(pk, targetTable)),
     };
-    const fk2Column = createFkColumn(targetTable.data.label, targetPk.type, fk2Props, false);
-    fk2Column.isPrimaryKey = true; // Part of the compose PK
-    fk2Column.position = 1;
-    newTable.data.columns.push(fk2Column);
+    for (const pk of targetPks) {
+        const fkColumn = createFkColumn(pk.name, pk.type, fk2Props, false);
+        fkColumn.isPrimaryKey = true; // Part of the compose PK
+        fkColumn.position = currentPosition++;
+        newTable.data.columns.push(fkColumn);
+    }
     
     nodeMap.set(newTable.id, newTable);
 
@@ -190,30 +194,35 @@ function handle1NRelationship(
     const oneTable = nodeMap.get(oneDetails.id) as TableNode;  // "1" Side
     const manyTable = nodeMap.get(manyDetails.id) as TableNode; // "N" Side
 
-    const onePk = getFirstPk(oneTable.data.columns);
-    if (!onePk) return;
+    const onePks: TableColumn[] = getPkColumns(oneTable.data.columns);
+    if (onePks.length === 0) return;
 
     const isOptional = oneDetails.minCardinality === 'Optional';
 
     const fkProps: ForeignKeyProps = {
         foreignKeyGroupId: uuidv4(),
         sourceTableId: oneTable.id,
-        columns: [toFkSimpleColumn(onePk as TableColumn, oneTable)],
+        columns: onePks.map(pk => toFkSimpleColumn(pk, oneTable)),
     };
 
-    const fkColumn = createFkColumn(oneTable.data.label, onePk.type, fkProps, isOptional);
     
-    // Weak Entity
-    if (node.data.isIdentifying) {
-        fkColumn.isPrimaryKey = true;
-    }
+    for (const onePkColumn of onePks) {
+        
+        const fkName = onePkColumn.name; 
+        const fkColumn = createFkColumn(fkName, onePkColumn.type, fkProps, isOptional);
+        
+        // Weak Entity
+        if (node.data.isIdentifying) {
+            fkColumn.isPrimaryKey = true;
+        }
 
-    if (isOneToOne) {
-        fkColumn.isUnique = true;
-    }
+        if (isOneToOne) {
+            fkColumn.isUnique = true;
+        }
 
-    fkColumn.position = manyTable.data.columns.length;
-    manyTable.data.columns.push(fkColumn);
+        fkColumn.position = manyTable.data.columns.length;
+        manyTable.data.columns.push(fkColumn);
+    }
 
     const newEdge = createRelationalEdge(manyTable, oneTable, fkProps);
     edgeMap.set(newEdge.id, newEdge);
@@ -221,7 +230,11 @@ function handle1NRelationship(
 
 
 // Add to the new uGroup
-function handleRelationshipNodes(nodes: Map<string, RelationshipNode>, [nodeMap, edgeMap]: [Map<string, RelationalNode>, Map<string, RelationalEdge>]) {
+function handleRelationshipNodes(
+    nodes: Map<string, RelationshipNode>, 
+    entityNodes: Map<string, EntityNode>,
+    [nodeMap, edgeMap]: [Map<string, RelationalNode>, Map<string, RelationalEdge>]
+) {
     for (const [id, node] of nodes) {
         const sourceDetails = node.data.sourceEntityDetails;
         const targetDetails = node.data.targetEntityDetails;
@@ -258,10 +271,26 @@ function handleRelationshipNodes(nodes: Map<string, RelationshipNode>, [nodeMap,
         // 1:1
         else {
             // FK goes to the Optional side
-            if (targetDetails.minCardinality === 'Optional') {
-                handle1NRelationship(node, sourceDetails, targetDetails, [nodeMap, edgeMap], true);
+            if (node.data.isIdentifying) {
+                const sourceNode = entityNodes.get(sourceDetails.id);
+                const targetNode = entityNodes.get(targetDetails.id);
+                if (sourceNode?.data.type === 'Weak') {
+                    handle1NRelationship(node, targetDetails, sourceDetails, [nodeMap, edgeMap], true);
+                } else if (targetNode?.data.type === 'Weak') {
+                    handle1NRelationship(node, sourceDetails, targetDetails, [nodeMap, edgeMap], true);
+                } else {
+                    if (targetDetails.minCardinality === 'Optional') {
+                        handle1NRelationship(node, sourceDetails, targetDetails, [nodeMap, edgeMap], true);
+                    } else {
+                        handle1NRelationship(node, targetDetails, sourceDetails, [nodeMap, edgeMap], true);
+                    }
+                }
             } else {
-                handle1NRelationship(node, targetDetails, sourceDetails, [nodeMap, edgeMap], true);
+                if (targetDetails.minCardinality === 'Optional') {
+                    handle1NRelationship(node, sourceDetails, targetDetails, [nodeMap, edgeMap], true);
+                } else {
+                    handle1NRelationship(node, targetDetails, sourceDetails, [nodeMap, edgeMap], true);
+                }
             }
         }
     }
@@ -301,18 +330,21 @@ function handleCompositeMultivaluedAttribute(
         selected: false,
     };
     
-    const parentPk = getFirstPk(parentTable.data.columns);
-    if (!parentPk) return;
+    const parentPks = getPkColumns(parentTable.data.columns);
+    if (parentPks.length === 0) return;
 
     const fkProps: ForeignKeyProps = {
         foreignKeyGroupId: uuidv4(),
         sourceTableId: parentTable.id,
-        columns: [toFkSimpleColumn(parentPk as TableColumn, parentTable)],
+        columns: parentPks.map(pk => toFkSimpleColumn(pk, parentTable)),
     };
-    const fkColumn = createFkColumn(parentTable.data.label, parentPk.type, fkProps, false);
-    fkColumn.isPrimaryKey = true; // Part of the compose PK
-    fkColumn.position = 0;
-    newTable.data.columns.push(fkColumn);
+    let currentPosition = 0;
+    for (const pk of parentPks) {
+        const fkColumn = createFkColumn(pk.name, pk.type, fkProps, false);
+        fkColumn.isPrimaryKey = true; // Part of the compose PK
+        fkColumn.position = currentPosition++;
+        newTable.data.columns.push(fkColumn);
+    }
 
     const cGroup = cGroups.parentMapper.get(node.id);
     if (!cGroup) return;
@@ -320,7 +352,6 @@ function handleCompositeMultivaluedAttribute(
     const childrenIds = cGroups.childrenMapper.get(cGroup);
     if (!childrenIds) return;
 
-    let currentPosition = 1;
     for (const childId of childrenIds) {
         const childNode = nodes.get(childId);
         if (!childNode) continue;
@@ -373,26 +404,29 @@ function handleMultivaluedAttribute(
             selected: false,
         };
 
-        const parentPk = getFirstPk(parentTable.data.columns);
-        if (!parentPk) return;
+        const parentPks = getPkColumns(parentTable.data.columns);
+        if (parentPks.length === 0) return;
 
         const fkProps: ForeignKeyProps = {
             foreignKeyGroupId: uuidv4(),
             sourceTableId: parentTable.id,
-            columns: [toFkSimpleColumn(parentPk as TableColumn, parentTable)],
+            columns: parentPks.map(pk => toFkSimpleColumn(pk, parentTable)),
         };
 
-        const fkColumn = createFkColumn(parentTable.data.label, parentPk.type, fkProps, false);
-        fkColumn.isPrimaryKey = true;
-        fkColumn.position = 0;
-        newTable.data.columns.push(fkColumn);
+        let currentPosition = 0;
+        for (const pk of parentPks) {
+            const fkColumn = createFkColumn(pk.name, pk.type, fkProps, false);
+            fkColumn.isPrimaryKey = true; // Part of the compose PK
+            fkColumn.position = currentPosition++;
+            newTable.data.columns.push(fkColumn);
+        }
 
         const valueColumn: TableColumn = {
             id: uuidv4(),
             name: columnName,
             position: 1,
             type: 'None',
-            isPrimaryKey: true, // Part of the PK
+            isPrimaryKey: true, // Part of the compose PK
             isOptional: false,
         } as TableColumn;
         newTable.data.columns.push(valueColumn);
@@ -579,14 +613,39 @@ function handleAttributeNodes(
                 groupNumbers: getUGroups(nodes, uGroups, id)
             } as TableColumn;
 
-            /*
-            Not needed, since all tables already have at least one PK
             if (flags.Unique) {
-                 newColumn.isPrimaryKey = true;
+                const parentPks = getPkColumns(parentTable.data.columns);
+                const isWeakTable = parentPks.some(pk => pk.isForeignKey === true);
+
+                if (isWeakTable) {
+                    newColumn.isPrimaryKey = true;
+                }
             }
-            */
 
             parentTable.data.columns.push(newColumn);
+        }
+    }
+}
+
+function cleanupWeakEntityPKs(
+    entityNodes: Map<string, EntityNode>, 
+    [nodeMap, edgeMap]: [Map<string, RelationalNode>, Map<string, RelationalEdge>]
+) {
+    for (const [id, entityNode] of entityNodes) {
+        if (entityNode.data.type === 'Weak') {
+            const table = nodeMap.get(id) as TableNode;
+            if (!table) continue;
+
+            const hasIdentifyingFK = table.data.columns.some(col => 
+                col.isPrimaryKey === true && col.isForeignKey === true
+            );
+
+            if (hasIdentifyingFK) {
+                table.data.columns = table.data.columns.filter(col => {
+                    const isPlaceholder = col.isPrimaryKey === true && col.isForeignKey !== true;
+                    return !isPlaceholder; // Removes only the placeholder
+                });
+            }
         }
     }
 }
@@ -604,8 +663,9 @@ function processNodes(
         const maps: [Map<string, RelationalNode>, Map<string, RelationalEdge>] = [nodeMap, edgeMap];
         handleLabelNodes(toProcess.labels, maps);
         handleEntityNodes(toProcess.entities, maps);
-        handleRelationshipNodes(toProcess.relationships, maps);
+        handleRelationshipNodes(toProcess.relationships, toProcess.entities, maps);
         handleAttributeNodes(toProcess.attributes, maps);
+        cleanupWeakEntityPKs(toProcess.entities, maps);
     }
 
 
