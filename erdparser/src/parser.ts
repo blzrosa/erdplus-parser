@@ -517,6 +517,8 @@ function getUGroups(
 
 function handleAttributeNodes(
     nodes: Map<string, AttributeNode>,
+    entityNodes: Map<string, EntityNode>, 
+    relationshipNodes: Map<string, RelationshipNode>,
     [nodeMap, edgeMap]: [Map<string, RelationalNode>, Map<string, RelationalEdge>]
 ) {
     // UNIQUE groups
@@ -538,6 +540,7 @@ function handleAttributeNodes(
         if (nodeTypes.Composite) cGroups.parentMapper.set(id, cGroups.actualIndex++);
     }
 
+    
     for (const [id, node] of nodes) {
         const parentId = node.parentId;
         if (!parentId) {
@@ -562,32 +565,63 @@ function handleAttributeNodes(
     for (const [id, node] of nodes) {
         const flags = getAttributeFlags(node.data.types);
 
-        // Already processed
-        if (processedAttributes.has(id)) {
+        if (processedAttributes.has(id) || flags.Derived || isAnyParentDerived(nodes, id)) {
             continue;
         }
 
-        // Derived (ignore)
-        if (flags.Derived || isAnyParentDerived(nodes, id)) {
-            continue;
-        }
-        
         let parentId = node.parentId as string;
-        let parent = nodeMap.get(parentId) || nodes.get(parentId); // Table or Composite Attribute
+        let parentNode = entityNodes.get(parentId) || relationshipNodes.get(parentId) || nodes.get(parentId);
+        let parentTable: TableNode | undefined;
         let namePrefix = '';
 
         // Gets the prefix and goes up until the entity if it exists
-        while (parent && parent.type === 'Attribute') {
-            const parentAttribute = parent as AttributeNode;
+        while (parentNode && parentNode.type === 'Attribute') {
+            const parentAttribute = parentNode as AttributeNode;
             namePrefix = `${parentAttribute.data.label}_${namePrefix}`;
+            
             parentId = parentAttribute.parentId as string;
-            parent = nodeMap.get(parentId) || nodes.get(parentId);
+            parentNode = entityNodes.get(parentId) || relationshipNodes.get(parentId) || nodes.get(parentId);
         }
-        if (!parent || parent.type !== 'Table') {
+
+        if (!parentNode) continue;
+
+        if (parentNode.type === 'Entity') {
+            parentTable = nodeMap.get(parentNode.id) as TableNode;
+        }
+        else if (parentNode.type === 'Relationship') {
+            const relNode = parentNode as RelationshipNode;
+            const sourceDetails = relNode.data.sourceEntityDetails;
+            const targetDetails = relNode.data.targetEntityDetails;
+            
+            if (!sourceDetails || !targetDetails) continue;
+
+            const isSourceMany = sourceDetails.maxCardinality === 'Many';
+            const isTargetMany = targetDetails.maxCardinality === 'Many';
+
+            if (isSourceMany && isTargetMany) {
+                parentTable = nodeMap.get(relNode.id) as TableNode;
+            } else if (!isSourceMany && isTargetMany) {
+                parentTable = nodeMap.get(targetDetails.id) as TableNode;
+            } else if (isSourceMany && !isTargetMany) {
+                parentTable = nodeMap.get(sourceDetails.id) as TableNode;
+            } else {
+                if (relNode.data.isIdentifying) {
+                    const sourceNode = entityNodes.get(sourceDetails.id);
+                    parentTable = (sourceNode?.data.type === 'Weak') 
+                        ? nodeMap.get(sourceDetails.id) as TableNode 
+                        : nodeMap.get(targetDetails.id) as TableNode;
+                } else {
+                    parentTable = (targetDetails.minCardinality === 'Optional')
+                        ? nodeMap.get(targetDetails.id) as TableNode
+                        : nodeMap.get(sourceDetails.id) as TableNode;
+                }
+            }
+        }
+
+        if (!parentTable || parentTable.type !== 'Table') {
             continue;
         }
 
-        const parentTable = parent as TableNode;
         const columnName = (namePrefix + node.data.label).toLowerCase();
 
         // Multivalued
@@ -664,7 +698,7 @@ function processNodes(
         handleLabelNodes(toProcess.labels, maps);
         handleEntityNodes(toProcess.entities, maps);
         handleRelationshipNodes(toProcess.relationships, toProcess.entities, maps);
-        handleAttributeNodes(toProcess.attributes, maps);
+        handleAttributeNodes(toProcess.attributes, toProcess.entities, toProcess.relationships, maps);
         cleanupWeakEntityPKs(toProcess.entities, maps);
     }
 
