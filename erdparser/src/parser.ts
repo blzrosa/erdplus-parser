@@ -60,12 +60,15 @@ function createRelationalEdge(
     };
 }
 
-function toFkSimpleColumn(column: TableColumn, target: TableNode): SimpleColumn {
-    return {
+function toFkSimpleColumn(column: TableColumn, target: TableNode, fkName: string = ''): SimpleColumn {
+    const newFkColumn: SimpleColumn = {
         id: `fk_${column.id}`,
-        name: `fk_${target.data.label}`,
+        name: fkName !== '' ? fkName : `fk_${target.data.label}`,
         type: column.type,
-    } as SimpleColumn
+    };
+
+    return newFkColumn;
+
 }
 
 function handleEntityNodes(
@@ -129,8 +132,8 @@ function handleMNRelationship(
     const sourceTable = nodeMap.get(sourceDetails.id) as TableNode;
     const targetTable = nodeMap.get(targetDetails.id) as TableNode;
 
-    const sourcePks = getPkColumns(sourceTable.data.columns).slice(0, 1);
-    const targetPks = getPkColumns(targetTable.data.columns).slice(0, 1);
+    const sourcePks = getPkColumns(sourceTable.data.columns);
+    const targetPks = getPkColumns(targetTable.data.columns);
 
     if (sourcePks.length === 0 || targetPks.length === 0) return;
 
@@ -157,24 +160,20 @@ function handleMNRelationship(
         sourceTableId: sourceTable.id,
         columns: sourcePks.map(pk => toFkSimpleColumn(pk, sourceTable)),
     };
-    for (const pk of sourcePks) {
-        const fkColumn = createFkColumn(pk.name, pk.type, fk1Props, false);
-        fkColumn.isPrimaryKey = true; // Part of the compose PK
-        fkColumn.position = currentPosition++;
-        newTable.data.columns.push(fkColumn);
-    }
+    const fk1Column = createFkColumn(node.data.label, 'INT', fk1Props, false);
+    fk1Column.isPrimaryKey = true; // Part of the compose PK
+    fk1Column.position = currentPosition++;
+    newTable.data.columns.push(fk1Column);
 
     const fk2Props: ForeignKeyProps = {
         foreignKeyGroupId: uuidv4(),
         sourceTableId: targetTable.id,
         columns: targetPks.map(pk => toFkSimpleColumn(pk, targetTable)),
     };
-    for (const pk of targetPks) {
-        const fkColumn = createFkColumn(pk.name, pk.type, fk2Props, false);
-        fkColumn.isPrimaryKey = true; // Part of the compose PK
-        fkColumn.position = currentPosition++;
-        newTable.data.columns.push(fkColumn);
-    }
+    const fk2Column = createFkColumn(node.data.label, 'INT', fk2Props, false);
+    fk2Column.isPrimaryKey = true; // Part of the compose PK
+    fk2Column.position = currentPosition++;
+    newTable.data.columns.push(fk2Column);
     
     nodeMap.set(newTable.id, newTable);
 
@@ -194,7 +193,7 @@ function handle1NRelationship(
     const oneTable = nodeMap.get(oneDetails.id) as TableNode;  // "1" Side
     const manyTable = nodeMap.get(manyDetails.id) as TableNode; // "N" Side
 
-    const onePks: TableColumn[] = getPkColumns(oneTable.data.columns).slice(0, 1);
+    const onePks: TableColumn[] = getPkColumns(oneTable.data.columns);
     if (onePks.length === 0) return;
 
     const isOptional = oneDetails.minCardinality === 'Optional';
@@ -206,23 +205,18 @@ function handle1NRelationship(
     };
 
     
-    for (const onePkColumn of onePks) {
-        
-        const fkName = onePkColumn.name; 
-        const fkColumn = createFkColumn(fkName, onePkColumn.type, fkProps, isOptional);
-        
-        // Weak Entity
-        if (node.data.isIdentifying) {
-            fkColumn.isPrimaryKey = true;
-        }
-
-        if (isOneToOne) {
-            fkColumn.isUnique = true;
-        }
-
-        fkColumn.position = manyTable.data.columns.length;
-        manyTable.data.columns.push(fkColumn);
+    const fkColumn = createFkColumn(node.data.label, 'INT', fkProps, false);
+    // Weak Entity
+    if (node.data.isIdentifying) {
+        fkColumn.isPrimaryKey = true;
     }
+
+    if (isOneToOne) {
+        fkColumn.isUnique = true;
+    }
+    
+    fkColumn.position = manyTable.data.columns.length;
+    manyTable.data.columns.push(fkColumn);
 
     const newEdge = createRelationalEdge(manyTable, oneTable, fkProps);
     edgeMap.set(newEdge.id, newEdge);
@@ -339,13 +333,11 @@ function handleCompositeMultivaluedAttribute(
         columns: parentPks.map(pk => toFkSimpleColumn(pk, parentTable)),
     };
     let currentPosition = 0;
-    for (const pk of parentPks) {
-        const fkColumn = createFkColumn(pk.name, pk.type, fkProps, false);
-        fkColumn.isPrimaryKey = true; // Part of the compose PK
-        fkColumn.position = currentPosition++;
-        newTable.data.columns.push(fkColumn);
-    }
-
+    const fkColumn = createFkColumn(node.data.label, 'INT', fkProps, false);
+    fkColumn.isPrimaryKey = true; // Part of the compose PK
+    fkColumn.position = currentPosition++;
+    newTable.data.columns.push(fkColumn);
+    
     const cGroup = cGroups.parentMapper.get(node.id);
     if (!cGroup) return;
 
@@ -414,12 +406,10 @@ function handleMultivaluedAttribute(
         };
 
         let currentPosition = 0;
-        for (const pk of parentPks) {
-            const fkColumn = createFkColumn(pk.name, pk.type, fkProps, false);
-            fkColumn.isPrimaryKey = true; // Part of the compose PK
-            fkColumn.position = currentPosition++;
-            newTable.data.columns.push(fkColumn);
-        }
+        const fkColumn = createFkColumn(node.data.label, 'INT', fkProps, false);
+        fkColumn.isPrimaryKey = true; // Part of the compose PK
+        fkColumn.position = currentPosition++;
+        newTable.data.columns.push(fkColumn);
 
         const valueColumn: TableColumn = {
             id: uuidv4(),
@@ -698,8 +688,8 @@ function processNodes(
         handleLabelNodes(toProcess.labels, maps);
         handleEntityNodes(toProcess.entities, maps);
         handleRelationshipNodes(toProcess.relationships, toProcess.entities, maps);
-        handleAttributeNodes(toProcess.attributes, toProcess.entities, toProcess.relationships, maps);
         cleanupWeakEntityPKs(toProcess.entities, maps);
+        handleAttributeNodes(toProcess.attributes, toProcess.entities, toProcess.relationships, maps);
     }
 
 

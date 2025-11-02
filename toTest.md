@@ -17,3 +17,4 @@
 9. [V] Relacionamento Supertipo
 
 10. [ ] Multivalorado Entidade Fraca
+
