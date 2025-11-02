@@ -9,7 +9,7 @@
 5. [V] N-Ário: Pelo novo formato do erdplus, não existe mais relacionamento n-ário própriamente dito, então eu não precio sequer me preocupar com isso (mas acho que é válido dizer isso)
 
 
-6. [X] Entidades fracas + (relacionamentos identifying + cascata): Falhou: Tenho que forçar ser a Pk do pai no caso 1:1, e tenho que fazer a PK ser só uma FK para o pai nesse caso (talvez DFS no final para corrigir, já que provavelmente vai dar erro se eu tentar fazer durante a execução)
+6. [V] Entidades fracas + (relacionamentos identifying + cascata): Falhou: Tenho que forçar ser a Pk do pai no caso 1:1, e tenho que fazer a PK ser só uma FK para o pai nesse caso (talvez DFS no final para corrigir, já que provavelmente vai dar erro se eu tentar fazer durante a execução)
 - TODO: ARRUMAR
 
 

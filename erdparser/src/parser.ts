@@ -95,7 +95,7 @@ function handleEntityNodes(
             const fkProps = {
                 foreignKeyGroupId: uuidv4(),
                 sourceTableId: parentTable.id,
-                columns: [toFkSimpleColumn(getPkColumns(parentTable.data.columns)[0] as TableColumn, parentTable)]
+                columns: [toFkSimpleColumn(pkFkColumn, parentTable)]
             } as ForeignKeyProps;
             pkFkColumn.foreignKeyProps = fkProps;
             
@@ -129,8 +129,8 @@ function handleMNRelationship(
     const sourceTable = nodeMap.get(sourceDetails.id) as TableNode;
     const targetTable = nodeMap.get(targetDetails.id) as TableNode;
 
-    const sourcePks = getPkColumns(sourceTable.data.columns);
-    const targetPks = getPkColumns(targetTable.data.columns);
+    const sourcePks = getPkColumns(sourceTable.data.columns).slice(0, 1);
+    const targetPks = getPkColumns(targetTable.data.columns).slice(0, 1);
 
     if (sourcePks.length === 0 || targetPks.length === 0) return;
 
@@ -194,7 +194,7 @@ function handle1NRelationship(
     const oneTable = nodeMap.get(oneDetails.id) as TableNode;  // "1" Side
     const manyTable = nodeMap.get(manyDetails.id) as TableNode; // "N" Side
 
-    const onePks: TableColumn[] = getPkColumns(oneTable.data.columns);
+    const onePks: TableColumn[] = getPkColumns(oneTable.data.columns).slice(0, 1);
     if (onePks.length === 0) return;
 
     const isOptional = oneDetails.minCardinality === 'Optional';
