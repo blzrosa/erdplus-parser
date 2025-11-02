@@ -12,7 +12,7 @@
 
 7. [V] Atributos de relacionamentos: Só funciona relacionamentos m:n.
 
-8. [ ] Supertipos
+8. [V] Supertipos e herança de herança
 
 9. [ ] Relacionamento Supertipo
 
