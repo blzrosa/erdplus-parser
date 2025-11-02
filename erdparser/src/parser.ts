@@ -219,6 +219,7 @@ function handle1NRelationship(
     edgeMap.set(newEdge.id, newEdge);
 }
 
+
 // Add to the new uGroup
 function handleRelationshipNodes(nodes: Map<string, RelationshipNode>, [nodeMap, edgeMap]: [Map<string, RelationalNode>, Map<string, RelationalEdge>]) {
     for (const [id, node] of nodes) {
@@ -226,6 +227,11 @@ function handleRelationshipNodes(nodes: Map<string, RelationshipNode>, [nodeMap,
         const targetDetails = node.data.targetEntityDetails;
 
         if (!sourceDetails || !targetDetails) {
+            continue;
+        }
+
+        
+        if (sourceDetails.exactConstraints?.max === 0 || targetDetails.exactConstraints?.max === 0) {
             continue;
         }
 

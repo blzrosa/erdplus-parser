@@ -4,7 +4,7 @@ import parseErdToRelational from "./parser";
 import saveErdPlusFile from "./saveErdplusFile";
 
 const inputFolder = 'data/tests'
-const fileName = 'TesteVariacoes';
+const fileName = 'test_entityRelationship';
 const outputFolder = 'data/tests/results';
 
 (async () => {
