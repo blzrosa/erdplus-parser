@@ -38,7 +38,7 @@ The project is set up to batch-process files from the input directory.
     ```
 4.  Find your converted files in the `output/` directory. Each will be named `{original_name}-relational.erdplus`.
 
-> **Warning** 
+> [!WARNING]
 > Does not work with old .erdplus files (but works with any file created after november 1st 2025).
 
 ## Project Structure
