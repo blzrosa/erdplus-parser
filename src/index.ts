@@ -18,7 +18,6 @@ const outputFolder = 'output';
     }
 
     const files = fs.readdirSync(inputFolder).filter(file => file.endsWith(".erdplus"));
-
     for (const fileName of files) {
         const baseName = path.basename(fileName, ".erdplus");
         try {
@@ -27,7 +26,7 @@ const outputFolder = 'output';
             const outputPath = path.join(outputFolder, `${baseName}-relational.erdplus`);
             saveErdPlusFile(rel, outputPath);
         } catch (error) {
-            console.error("Error parsing file:", error)
+            console.error(`Error parsing file ${fileName}:\n`, error)
         }
     }
 
