@@ -1,11 +1,11 @@
 {
   "name": "erdparser",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "An Entity-Relationship to Relational Diagram parser",
   "license": "ISC",
-  "author": "",
+  "author": "B. L. Z. Rosa",
   "type": "commonjs",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "start": "ts-node src/index.ts",
     "build": "tsc",
