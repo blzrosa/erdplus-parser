@@ -2,7 +2,10 @@
 
 This is a TypeScript project that automatically converts Entity-Relationship Diagrams (ERDs) created in [Erdplus](https://erdplus.com/) into corresponding logical Relational Schemas.
 
-It reads a `.erdplus` file (which is a JSON export) containing an ER diagram, applies standard database theory mapping rules to 3rd normal form, and outputs a new `.erdplus` file containing the equivalent Relational Schema, which can then be re-imported into Erdplus for visualization.
+It reads a `.erdplus` file (which is a JSON export) containing an ER diagram, applies standard database theory mapping rules to 3rd normal form, and outputs a new `.erdplus` file. This new file contains the equivalent Relational Schema, which can then be re-imported directly into Erdplus for visualization.
+
+> [!NOTE]
+> The primary goal of this tool is to automate the logical database design phase, allowing you to visualize the resulting relational schema directly within the same application you used for conceptual modeling.
 
 ## Features
 
@@ -21,7 +24,9 @@ The parser successfully maps the following ER diagram constructs to a relational
   * **Relationship Attributes**: Attributes on relationships are correctly assigned:
       * For M:N relationships, attributes are added to the associative table.
       * For 1:N or 1:1 relationships, attributes are added to the table that receives the foreign key.
-  * **N-ary Relationships**: Note: Per the new Erdplus format, n-ary relationships proper no longer exist and are typically modeled using an associative entity, which the parser supports.
+  * **N-ary Relationships**:
+    > [!NOTE]
+    > Per the modern Erdplus format, true n-ary relationships are modeled using an associative entity. The parser correctly supports this standard associative entity pattern.
 
 ## How to Use
 
@@ -39,7 +44,7 @@ The project is set up to batch-process files from the input directory.
 4.  Find your converted files in the `output/` directory. Each will be named `{original_name}-relational.erdplus`.
 
 > [!WARNING]
-> Does not work with old .erdplus files (but works with any file created after november 1st 2025).
+> This tool **does not work** with old `.erdplus` file formats (any file created before November 1st, 2025). It is designed exclusively for the modern JSON structure.
 
 ## Project Structure
 
@@ -49,7 +54,7 @@ The project is set up to batch-process files from the input directory.
 │   ├── tests/              # Test input .erdplus ER diagrams
 │   │   └── results/        # Test output .erdplus Relational schemas
 ├── input/                  # Input .erdplus ER diagrams
-├── output/                 # Output .erdplus ER diagrams
+├── output/                 # Output .erdplus Relational schemas
 └── src/
     ├── interfaces.ts       # TypeScript types for the Erdplus diagram structure
     ├── parser.ts           # Core ERD-to-Relational conversion logic
@@ -61,20 +66,24 @@ The project is set up to batch-process files from the input directory.
 
 ## Current Tests
 
-1. [Passed] Entity-Attribute
-2. [Passed] Entity-Relationship
-3. [Passed] Attribute cascade
-4. [Passed] Recursive relationship
-5. [Skiped] N-ary relationship: With the new erdplus format, n-ary relationships proper no longer exist, so I don't even need to worry about this (but I think it's worth mentioning this)
-6. [Passed] Weak entities + (identifying relationships + cascade)
-7. [Passed] Relationship attributes:
-8. [Passed] Supertypes and multi-level inheritance
-9. [Passed] Supertype Relationship
+1.  [Passed] Entity-Attribute
+2.  [Passed] Entity-Relationship
+3.  [Passed] Attribute cascade
+4.  [Passed] Recursive relationship
+5.  [Skipped] N-ary relationship
+    > [!NOTE]
+    > As noted in Features, the new Erdplus format no longer uses true n-ary relationships, so a specific test for this legacy construct is not required. The parser handles the modern associative entity equivalent.
+6.  [Passed] Weak entities + (identifying relationships + cascade)
+7.  [Passed] Relationship attributes
+8.  [Passed] Supertypes and multi-level inheritance
+9.  [Passed] Supertype Relationship
 10. [Passed] Multivalued Weak Entity Attribute
 
 ## Future Work (TODO)
 
   * [ ] Refactor the code in `parser.ts` for better readability and maintenance, especially the attribute handling.
-  * [ ] Implement proper automated tests
-  * [ ] Implement **Zod** for robust schema validation on the input `.erdplus` files, as noted in `readErdplusFile.ts`.
-  * [ ] Try to implement legacy versions
+  * [ ] Implement proper automated unit tests (e.g., using Jest) to validate the output schema structure, rather than relying on manual file comparison.
+  * [ ] Implement **Zod** for robust schema validation on the input `.erdplus` files.
+    > [!IMPORTANT]
+    > As noted in `readErdplusFile.ts`, validating the input JSON with Zod is a high priority. It will make the parser much more resilient to unexpected file structures or future changes in the Erdplus format.
+  * [ ] Investigate the feasibility of adding support for legacy `.erdplus` file versions.
