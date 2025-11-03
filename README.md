@@ -52,8 +52,8 @@ The project is set up to batch-process files from an input directory.
     ├── parser.ts           # Core ERD-to-Relational conversion logic
     ├── readErdplusFile.ts  # Utility to read and parse the .erdplus JSON file
     ├── saveErdplusFile.ts  # Utility to write the new diagram to a .erdplus file
-    ├── index.ts            # Entry point for running a single file conversion
-    └── test.ts             # Entry point for batch processing all files in /data/tests
+    ├── index.ts            # Entry point for batch processing all files in /data/input
+    └── test.ts             # Entry point for batch processing all test files in /data/tests
 ```
 
 ## Current Tests
