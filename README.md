@@ -45,6 +45,9 @@ The project is set up to batch-process files from the input directory.
 > [!WARNING]
 > This tool **does not work** with old `.erdplus` file formats (any file created before November 1st, 2025). It is designed exclusively for the modern JSON structure.
 
+> [!TIP]
+> However, if you upload the file to [Erdplus](https://erdplus.com/) and export it, then the file inherits the new format and this parser works.
+
 ## Project Structure
 
 ```
@@ -75,6 +78,7 @@ The project is set up to batch-process files from the input directory.
 8.  **[Passed]** Supertypes and multi-level inheritance
 9.  **[Passed]** Supertype Relationship
 10. **[Passed]** Multivalued Weak Entity Attribute
+11. **[Passed]** Broken erdplus file
 
 > [!NOTE]
 > As noted in Features, the new Erdplus format no longer uses true n-ary relationships, so a specific test for this legacy construct is not required. The parser handles the modern associative entity equivalent.
@@ -84,7 +88,6 @@ The project is set up to batch-process files from the input directory.
   * [ ] Refactor the code in `parser.ts` for better readability and maintenance, especially the attribute handling.
   * [ ] Implement proper automated unit tests (e.g., using Jest) to validate the output schema structure, rather than relying on manual file comparison.
   * [ ] Implement **Zod** for robust schema validation on the input `.erdplus` files.
-  * [ ] Investigate the feasibility of adding support for legacy `.erdplus` file versions.
 
 > [!IMPORTANT]
 > As noted in `readErdplusFile.ts`, validating the input JSON with Zod is a high priority. It will make the parser much more resilient to unexpected file structures or future changes in the Erdplus format.
