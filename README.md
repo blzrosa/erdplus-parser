@@ -38,6 +38,8 @@ The project is set up to batch-process files from the input directory.
     ```
 4.  Find your converted files in the `output/` directory. Each will be named `{original_name}-relational.erdplus`.
 
+> [!WARNING] Does not work with old .erdplus files (but works with any file created after november 1st 2025).
+
 ## Project Structure
 
 ```
@@ -74,3 +76,4 @@ The project is set up to batch-process files from the input directory.
   * [ ] Refactor the code in `parser.ts` for better readability and maintenance, especially the attribute handling.
   * [ ] Implement proper automated tests
   * [ ] Implement **Zod** for robust schema validation on the input `.erdplus` files, as noted in `readErdplusFile.ts`.
+  * [ ] Try to implement legacy versions
