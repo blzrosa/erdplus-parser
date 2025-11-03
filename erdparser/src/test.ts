@@ -24,7 +24,7 @@ const outputFolder = 'data/tests/results';
         try {
             const dg: Diagram = await readErdplusFile(path.join(inputFolder, fileName));
             const rel: Diagram = parseErdToRelational(dg)
-            const outputPath = path.join(outputFolder, `${baseName}_rel.erdplus`);
+            const outputPath = path.join(outputFolder, `${baseName}-relational.erdplus`);
             saveErdPlusFile(rel, outputPath);
         } catch (error) {
             console.error("Error parsing file:", error)
