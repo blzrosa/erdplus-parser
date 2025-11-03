@@ -1,5 +1,6 @@
 import { Diagram, ErNode, Graph, RelationalEdge, RelationalNode,  LabelNode, EntityNode, AttributeNode, RelationshipNode, TableNode, TableColumn, SimpleColumn, ForeignKeyProps, SimpleDataType, EntityDetails, AttributeFlags, AttributeFlag, Int } from "./interfaces";
 import { v4 as uuidv4 } from 'uuid';
+import fixERD from "./fixERD";
 
 enum DiagramTypes {
     ER = 1,
@@ -781,12 +782,13 @@ function buildRelationalDiagram(erd: Diagram): Diagram {
         data: relationalGraph,
     } as Diagram;
 }
-1
+
 export default function parseErdToRelational(erd: Diagram): Diagram {
     if (erd.diagramType === DiagramTypes.Relational) {
         return erd;
     }
 
+    fixERD(erd);
     const relationalParsed: Diagram = buildRelationalDiagram(erd);
     return relationalParsed;
 
