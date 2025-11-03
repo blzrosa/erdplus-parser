@@ -158,7 +158,7 @@ function handleMNRelationship(
     const fk1Props: ForeignKeyProps = {
         foreignKeyGroupId: uuidv4(),
         sourceTableId: sourceTable.id,
-        columns: sourcePks.map(pk => toFkSimpleColumn(pk, sourceTable)),
+        columns: sourcePks.map(pk => toFkSimpleColumn(pk, sourceTable, node.data.label)),
     };
     const fk1Column = createFkColumn(node.data.label, 'INT', fk1Props, false);
     fk1Column.isPrimaryKey = true; // Part of the compose PK
@@ -168,7 +168,7 @@ function handleMNRelationship(
     const fk2Props: ForeignKeyProps = {
         foreignKeyGroupId: uuidv4(),
         sourceTableId: targetTable.id,
-        columns: targetPks.map(pk => toFkSimpleColumn(pk, targetTable)),
+        columns: targetPks.map(pk => toFkSimpleColumn(pk, targetTable, node.data.label)),
     };
     const fk2Column = createFkColumn(node.data.label, 'INT', fk2Props, false);
     fk2Column.isPrimaryKey = true; // Part of the compose PK
@@ -201,7 +201,7 @@ function handle1NRelationship(
     const fkProps: ForeignKeyProps = {
         foreignKeyGroupId: uuidv4(),
         sourceTableId: oneTable.id,
-        columns: onePks.map(pk => toFkSimpleColumn(pk, oneTable)),
+        columns: onePks.map(pk => toFkSimpleColumn(pk, oneTable, node.data.label)),
     };
 
     
@@ -330,7 +330,7 @@ function handleCompositeMultivaluedAttribute(
     const fkProps: ForeignKeyProps = {
         foreignKeyGroupId: uuidv4(),
         sourceTableId: parentTable.id,
-        columns: parentPks.map(pk => toFkSimpleColumn(pk, parentTable)),
+        columns: parentPks.map((pk, index) => toFkSimpleColumn(pk, parentTable, `${parentTable.data.label}_${index+1}`)),
     };
     let currentPosition = 0;
     const fkColumn = createFkColumn(node.data.label, 'INT', fkProps, false);
@@ -402,7 +402,7 @@ function handleMultivaluedAttribute(
         const fkProps: ForeignKeyProps = {
             foreignKeyGroupId: uuidv4(),
             sourceTableId: parentTable.id,
-            columns: parentPks.map(pk => toFkSimpleColumn(pk, parentTable)),
+            columns: parentPks.map((pk, index) => toFkSimpleColumn(pk, parentTable, `${parentTable.data.label}_${index+1}`)),
         };
 
         let currentPosition = 0;
