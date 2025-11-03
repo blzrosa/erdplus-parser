@@ -65,16 +65,16 @@ The project is set up to batch-process files from the input directory.
 
 ## Current Tests
 
-1.  [Passed] Entity-Attribute
-2.  [Passed] Entity-Relationship
-3.  [Passed] Attribute cascade
-4.  [Passed] Recursive relationship
-5.  [Skipped] N-ary relationship
-6.  [Passed] Weak entities + (identifying relationships + cascade)
-7.  [Passed] Relationship attributes
-8.  [Passed] Supertypes and multi-level inheritance
-9.  [Passed] Supertype Relationship
-10. [Passed] Multivalued Weak Entity Attribute
+1.  **[Passed]** Entity-Attribute
+2.  **[Passed]** Entity-Relationship
+3.  **[Passed]** Attribute cascade
+4.  **[Passed]** Recursive relationship
+5.  **[Skipped]** N-ary relationship
+6.  **[Passed]** Weak entities + (identifying relationships + cascade)
+7.  **[Passed]** Relationship attributes
+8.  **[Passed]** Supertypes and multi-level inheritance
+9.  **[Passed]** Supertype Relationship
+10. **[Passed]** Multivalued Weak Entity Attribute
 
 > [!NOTE]
 > As noted in Features, the new Erdplus format no longer uses true n-ary relationships, so a specific test for this legacy construct is not required. The parser handles the modern associative entity equivalent.
