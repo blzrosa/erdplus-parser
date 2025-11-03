@@ -25,9 +25,9 @@ The parser successfully maps the following ER diagram constructs to a relational
 
 ## How to Use
 
-The project is set up to batch-process files from an input directory.
+The project is set up to batch-process files from the input directory.
 
-1.  Place all your `.erdplus` diagram files into the `data/input` directory.
+1.  Place all your `.erdplus` diagram files into the `input/` directory.
 2.  Install dependencies:
     ```bash
     npm install
@@ -36,7 +36,7 @@ The project is set up to batch-process files from an input directory.
     ```bash
     npm start
     ```
-4.  Find your converted files in the `data/output` directory. Each will be named `{original_name}-relational.erdplus`.
+4.  Find your converted files in the `output/` directory. Each will be named `{original_name}-relational.erdplus`.
 
 ## Project Structure
 
