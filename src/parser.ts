@@ -164,16 +164,19 @@ function handleMNRelationship(
         selected: false,
     };
 
+    const isSelfRelationship = node.data.isSelfReferencing;
+    const [label1, label2] : [string, string] = isSelfRelationship ? [`${sourceNode.data.label}(1)`, `${targetNode.data.label}(2)`] : [sourceNode.data.label, targetNode.data.label]
+
     let currentPosition = 0
 
     const fk1Props: ForeignKeyProps = {
         foreignKeyGroupId: uuidv4(),
         sourceTableId: sourceTable.id,
         columns: sourcePks.length > 1 ? 
-        sourcePks.map((pk, index) => toFkSimpleColumn(pk, sourceTable, `${sourceNode.data.label}_${index+1}`)) :
-        sourcePks.map(pk => toFkSimpleColumn(pk, sourceTable, sourceNode.data.label)),
+        sourcePks.map((pk, index) => toFkSimpleColumn(pk, sourceTable, `${label1}_${index+1}`)) :
+        sourcePks.map(pk => toFkSimpleColumn(pk, sourceTable, label1)),
     };
-    const fk1Column = createFkColumn(node.data.label, 'INT', fk1Props, false);
+    const fk1Column = createFkColumn(label1, 'INT', fk1Props, false);
     fk1Column.isPrimaryKey = true; // Part of the compose PK
     fk1Column.position = currentPosition++;
     newTable.data.columns.push(fk1Column);
@@ -182,10 +185,10 @@ function handleMNRelationship(
         foreignKeyGroupId: uuidv4(),
         sourceTableId: targetTable.id,
         columns: targetPks.length > 1 ? 
-        targetPks.map((pk, index) => toFkSimpleColumn(pk, targetTable, `${targetNode.data.label}_${index+1}`)) :
-        targetPks.map(pk => toFkSimpleColumn(pk, targetTable, targetNode.data.label)),
+        targetPks.map((pk, index) => toFkSimpleColumn(pk, targetTable, `${label2}_${index+1}`)) :
+        targetPks.map(pk => toFkSimpleColumn(pk, targetTable, label2)),
     };
-    const fk2Column = createFkColumn(node.data.label, 'INT', fk2Props, false);
+    const fk2Column = createFkColumn(label2, 'INT', fk2Props, false);
     fk2Column.isPrimaryKey = true; // Part of the compose PK
     fk2Column.position = currentPosition++;
     newTable.data.columns.push(fk2Column);
