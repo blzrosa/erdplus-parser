@@ -24,9 +24,8 @@ The parser successfully maps the following ER diagram constructs to a relational
   * **Relationship Attributes**: Attributes on relationships are correctly assigned:
       * For M:N relationships, attributes are added to the associative table.
       * For 1:N or 1:1 relationships, attributes are added to the table that receives the foreign key.
-  * **N-ary Relationships**:
-    > [!NOTE]
-    > Per the modern Erdplus format, true n-ary relationships are modeled using an associative entity. The parser correctly supports this standard associative entity pattern.
+> [!NOTE]
+> **N-ary Relationships**: Per the modern Erdplus format, true n-ary relationships are modeled using an associative entity. The parser correctly supports this standard associative entity pattern.
 
 ## How to Use
 
@@ -71,19 +70,21 @@ The project is set up to batch-process files from the input directory.
 3.  [Passed] Attribute cascade
 4.  [Passed] Recursive relationship
 5.  [Skipped] N-ary relationship
-    > [!NOTE]
-    > As noted in Features, the new Erdplus format no longer uses true n-ary relationships, so a specific test for this legacy construct is not required. The parser handles the modern associative entity equivalent.
 6.  [Passed] Weak entities + (identifying relationships + cascade)
 7.  [Passed] Relationship attributes
 8.  [Passed] Supertypes and multi-level inheritance
 9.  [Passed] Supertype Relationship
 10. [Passed] Multivalued Weak Entity Attribute
 
+> [!NOTE]
+> As noted in Features, the new Erdplus format no longer uses true n-ary relationships, so a specific test for this legacy construct is not required. The parser handles the modern associative entity equivalent.
+
 ## Future Work (TODO)
 
   * [ ] Refactor the code in `parser.ts` for better readability and maintenance, especially the attribute handling.
   * [ ] Implement proper automated unit tests (e.g., using Jest) to validate the output schema structure, rather than relying on manual file comparison.
   * [ ] Implement **Zod** for robust schema validation on the input `.erdplus` files.
-    > [!IMPORTANT]
-    > As noted in `readErdplusFile.ts`, validating the input JSON with Zod is a high priority. It will make the parser much more resilient to unexpected file structures or future changes in the Erdplus format.
   * [ ] Investigate the feasibility of adding support for legacy `.erdplus` file versions.
+
+> [!IMPORTANT]
+> As noted in `readErdplusFile.ts`, validating the input JSON with Zod is a high priority. It will make the parser much more resilient to unexpected file structures or future changes in the Erdplus format.
