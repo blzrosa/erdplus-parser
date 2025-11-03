@@ -62,12 +62,12 @@ The project is set up to batch-process files from the input directory.
 2. [Passed] Entity-Relationship
 3. [Passed] Attribute cascade
 4. [Passed] Recursive relationship
-5. [Passed] N-ary: With the new erdplus format, n-ary relationships proper no longer exist, so I don't even need to worry about this (but I think it's worth mentioning this)
-6. [Passed] Weak entities + (identifying relationships + cascade) (double key in E03W and in E04W)
+5. [Skiped] N-ary relationship: With the new erdplus format, n-ary relationships proper no longer exist, so I don't even need to worry about this (but I think it's worth mentioning this)
+6. [Passed] Weak entities + (identifying relationships + cascade)
 7. [Passed] Relationship attributes:
 8. [Passed] Supertypes and multi-level inheritance
 9. [Passed] Supertype Relationship
-10. [Passed] Multivalued Weak Entity 
+10. [Passed] Multivalued Weak Entity Attribute
 
 ## Future Work (TODO)
 
