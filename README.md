@@ -43,16 +43,16 @@ The project is set up to batch-process files from an input directory.
 ```
 .
 ├── data/
-│   ├── tests/          # Test input .erdplus ER diagrams
-│   │   └── results/    # Test output .erdplus Relational schemas
-│   ├── input/          # Input .erdplus ER diagrams
-│   ├── output/         # Output .erdplus ER diagrams
+│   ├── tests/              # Test input .erdplus ER diagrams
+│   │   └── results/        # Test output .erdplus Relational schemas
+├── input/                  # Input .erdplus ER diagrams
+├── output/                 # Output .erdplus ER diagrams
 └── src/
     ├── interfaces.ts       # TypeScript types for the Erdplus diagram structure
     ├── parser.ts           # Core ERD-to-Relational conversion logic
     ├── readErdplusFile.ts  # Utility to read and parse the .erdplus JSON file
     ├── saveErdplusFile.ts  # Utility to write the new diagram to a .erdplus file
-    ├── index.ts            # Entry point for batch processing all files in /data/input
+    ├── index.ts            # Entry point for batch processing all files in /input
     └── test.ts             # Entry point for batch processing all test files in /data/tests
 ```
 

@@ -5,8 +5,8 @@ import readErdplusFile from "./readErdplusFile";
 import parseErdToRelational from "./parser";
 import saveErdPlusFile from "./saveErdplusFile";
 
-const inputFolder = 'data/input'
-const outputFolder = 'data/output';
+const inputFolder = 'input'
+const outputFolder = 'output';
 
 (async () => {
   try {
