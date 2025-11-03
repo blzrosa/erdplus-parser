@@ -124,6 +124,7 @@ function createFkColumn(columnName: string, type: SimpleDataType, fkProps: Forei
 }
 
 function handleMNRelationship(
+    entityNodes: Map<string, EntityNode>,
     node: RelationshipNode,
     sourceDetails: EntityDetails,
     targetDetails: EntityDetails,
@@ -132,9 +133,19 @@ function handleMNRelationship(
     const sourceTable = nodeMap.get(sourceDetails.id) as TableNode;
     const targetTable = nodeMap.get(targetDetails.id) as TableNode;
 
-    const sourcePks = getPkColumns(sourceTable.data.columns);
-    const targetPks = getPkColumns(targetTable.data.columns);
-
+    const sourceCandidatePks = getPkColumns(sourceTable.data.columns);
+    const sourceNode: EntityNode = entityNodes.get(sourceDetails.id) as EntityNode;
+    const sourcePks: TableColumn[] = sourceNode.data.type !== 'Weak' ? sourceCandidatePks :  sourceCandidatePks.filter(col => {
+                    const isPlaceholder = col.isPrimaryKey === true && col.isForeignKey !== true;
+                    return isPlaceholder; // Removes only the placeholder
+                });
+    
+    const targetCandidatePks = getPkColumns(targetTable.data.columns);
+    const targetNode: EntityNode = entityNodes.get(targetDetails.id) as EntityNode;
+    const targetPks: TableColumn[] = targetNode.data.type !== 'Weak' ? targetCandidatePks :  targetCandidatePks.filter(col => {
+                    const isPlaceholder = col.isPrimaryKey === true && col.isForeignKey !== true;
+                    return isPlaceholder; // Removes only the placeholder
+                });
     if (sourcePks.length === 0 || targetPks.length === 0) return;
 
     // Creating Associative table
@@ -158,7 +169,9 @@ function handleMNRelationship(
     const fk1Props: ForeignKeyProps = {
         foreignKeyGroupId: uuidv4(),
         sourceTableId: sourceTable.id,
-        columns: sourcePks.map(pk => toFkSimpleColumn(pk, sourceTable, node.data.label)),
+        columns: sourcePks.length > 1 ? 
+        sourcePks.map((pk, index) => toFkSimpleColumn(pk, sourceTable, `${sourceNode.data.label}_${index+1}`)) :
+        sourcePks.map(pk => toFkSimpleColumn(pk, sourceTable, sourceNode.data.label)),
     };
     const fk1Column = createFkColumn(node.data.label, 'INT', fk1Props, false);
     fk1Column.isPrimaryKey = true; // Part of the compose PK
@@ -168,7 +181,9 @@ function handleMNRelationship(
     const fk2Props: ForeignKeyProps = {
         foreignKeyGroupId: uuidv4(),
         sourceTableId: targetTable.id,
-        columns: targetPks.map(pk => toFkSimpleColumn(pk, targetTable, node.data.label)),
+        columns: targetPks.length > 1 ? 
+        targetPks.map((pk, index) => toFkSimpleColumn(pk, targetTable, `${targetNode.data.label}_${index+1}`)) :
+        targetPks.map(pk => toFkSimpleColumn(pk, targetTable, targetNode.data.label)),
     };
     const fk2Column = createFkColumn(node.data.label, 'INT', fk2Props, false);
     fk2Column.isPrimaryKey = true; // Part of the compose PK
@@ -184,6 +199,7 @@ function handleMNRelationship(
 }
 
 function handle1NRelationship(
+    entityNodes: Map<string, EntityNode>,
     node: RelationshipNode,
     oneDetails: EntityDetails,
     manyDetails: EntityDetails,
@@ -193,7 +209,12 @@ function handle1NRelationship(
     const oneTable = nodeMap.get(oneDetails.id) as TableNode;  // "1" Side
     const manyTable = nodeMap.get(manyDetails.id) as TableNode; // "N" Side
 
-    const onePks: TableColumn[] = getPkColumns(oneTable.data.columns);
+    const oneCandidatePks: TableColumn[] = getPkColumns(oneTable.data.columns);
+    const oneNode: EntityNode = entityNodes.get(oneDetails.id) as EntityNode;
+    const onePks: TableColumn[] = oneNode.data.type !== 'Weak' ? oneCandidatePks :  oneCandidatePks.filter(col => {
+                    const isPlaceholder = col.isPrimaryKey === true && col.isForeignKey !== true;
+                    return isPlaceholder; // Removes only the placeholder
+                });
     if (onePks.length === 0) return;
 
     const isOptional = oneDetails.minCardinality === 'Optional';
@@ -247,19 +268,19 @@ function handleRelationshipNodes(
 
         // M:N
         if (isSourceMany && isTargetMany) {
-            handleMNRelationship(node, sourceDetails, targetDetails, [nodeMap, edgeMap]);
+            handleMNRelationship(entityNodes, node, sourceDetails, targetDetails, [nodeMap, edgeMap]);
         }
         
         // 1:N
         else if (!isSourceMany && isTargetMany) {
             // source is "1", target is "N"
-            handle1NRelationship(node, sourceDetails, targetDetails, [nodeMap, edgeMap]);
+            handle1NRelationship(entityNodes, node, sourceDetails, targetDetails, [nodeMap, edgeMap]);
         }
         
         // N:1
         else if (isSourceMany && !isTargetMany) {
             // source is "N", target is "1"
-            handle1NRelationship(node, targetDetails, sourceDetails, [nodeMap, edgeMap]);
+            handle1NRelationship(entityNodes, node, targetDetails, sourceDetails, [nodeMap, edgeMap]);
         }
         
         // 1:1
@@ -269,21 +290,21 @@ function handleRelationshipNodes(
                 const sourceNode = entityNodes.get(sourceDetails.id);
                 const targetNode = entityNodes.get(targetDetails.id);
                 if (sourceNode?.data.type === 'Weak') {
-                    handle1NRelationship(node, targetDetails, sourceDetails, [nodeMap, edgeMap], true);
+                    handle1NRelationship(entityNodes, node, targetDetails, sourceDetails, [nodeMap, edgeMap], true);
                 } else if (targetNode?.data.type === 'Weak') {
-                    handle1NRelationship(node, sourceDetails, targetDetails, [nodeMap, edgeMap], true);
+                    handle1NRelationship(entityNodes, node, sourceDetails, targetDetails, [nodeMap, edgeMap], true);
                 } else {
                     if (targetDetails.minCardinality === 'Optional') {
-                        handle1NRelationship(node, sourceDetails, targetDetails, [nodeMap, edgeMap], true);
+                        handle1NRelationship(entityNodes, node, sourceDetails, targetDetails, [nodeMap, edgeMap], true);
                     } else {
-                        handle1NRelationship(node, targetDetails, sourceDetails, [nodeMap, edgeMap], true);
+                        handle1NRelationship(entityNodes, node, targetDetails, sourceDetails, [nodeMap, edgeMap], true);
                     }
                 }
             } else {
                 if (targetDetails.minCardinality === 'Optional') {
-                    handle1NRelationship(node, sourceDetails, targetDetails, [nodeMap, edgeMap], true);
+                    handle1NRelationship(entityNodes, node, sourceDetails, targetDetails, [nodeMap, edgeMap], true);
                 } else {
-                    handle1NRelationship(node, targetDetails, sourceDetails, [nodeMap, edgeMap], true);
+                    handle1NRelationship(entityNodes, node, targetDetails, sourceDetails, [nodeMap, edgeMap], true);
                 }
             }
         }
@@ -330,7 +351,9 @@ function handleCompositeMultivaluedAttribute(
     const fkProps: ForeignKeyProps = {
         foreignKeyGroupId: uuidv4(),
         sourceTableId: parentTable.id,
-        columns: parentPks.map((pk, index) => toFkSimpleColumn(pk, parentTable, `${parentTable.data.label}_${index+1}`)),
+        columns: parentPks.length > 1 ?
+        parentPks.map((pk, index) => toFkSimpleColumn(pk, parentTable, `${parentTable.data.label}_${index+1}`)) :
+        parentPks.map(pk => toFkSimpleColumn(pk, parentTable, parentTable.data.label)),
     };
     let currentPosition = 0;
     const fkColumn = createFkColumn(node.data.label, 'INT', fkProps, false);
@@ -402,7 +425,9 @@ function handleMultivaluedAttribute(
         const fkProps: ForeignKeyProps = {
             foreignKeyGroupId: uuidv4(),
             sourceTableId: parentTable.id,
-            columns: parentPks.map((pk, index) => toFkSimpleColumn(pk, parentTable, `${parentTable.data.label}_${index+1}`)),
+            columns: parentPks.length > 1 ?
+            parentPks.map((pk, index) => toFkSimpleColumn(pk, parentTable, `${parentTable.data.label}_${index+1}`)) :
+            parentPks.map(pk => toFkSimpleColumn(pk, parentTable, parentTable.data.label)),
         };
 
         let currentPosition = 0;
