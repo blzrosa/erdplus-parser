@@ -58,10 +58,29 @@ The project is set up to batch-process files from the input directory.
 ├── input/                  # Input .erdplus ER diagrams
 ├── output/                 # Output .erdplus Relational schemas
 └── src/
-    ├── interfaces.ts       # TypeScript types for the Erdplus diagram structure
-    ├── parser.ts           # Core ERD-to-Relational conversion logic
-    ├── readErdplusFile.ts  # Utility to read and parse the .erdplus JSON file
-    ├── saveErdplusFile.ts  # Utility to write the new diagram to a .erdplus file
+    ├── core/               # Zod schemas and TypeScript types
+    │   ├── common/         # Schemas shared by ER and Relational models
+    │   │   └── schemas.ts
+    │   ├── er/             # Schemas specific to ER diagrams
+    │   │   └── schemas.ts
+    │   ├── relational/     # Schemas specific to Relational models
+    │   │   └── schemas.ts
+    │   └── types.ts        # Combines and exports all types
+    ├── io/                 # Utilities for reading/writing .erdplus files
+    │   ├── readErdplusFile.ts
+    │   └── saveErdplusFile.ts
+    ├── parser/             # Core ERD-to-Relational conversion logic
+    │   ├── handlers/       # Logic for each ER node type (Entity, Attribute, etc.)
+    │   │   ├── attributeHandler.ts
+    │   │   ├── entityHandler.ts
+    │   │   ├── labelHandler.ts
+    │   │   ├── relationshipHandler.ts
+    │   │   └── weakEntityHandler.ts
+    │   ├── index.ts        # Main parser orchestration
+    │   └── parserUtils.ts  # Helper functions for the parser
+    ├── utils/              # Utility functions to fix input file inconsistencies
+    │   ├── fixAttributes.ts
+    │   └── fixIds.ts
     ├── index.ts            # Entry point for batch processing all files in /input
     └── test.ts             # Entry point for batch processing all test files in /data/tests
 ```
@@ -79,15 +98,11 @@ The project is set up to batch-process files from the input directory.
 9.  **[Passed]** Supertype Relationship
 10. **[Passed]** Multivalued Weak Entity Attribute
 11. **[Passed]** Broken erdplus file
+12. **[Passed]** Zod schema validation
 
 > [!NOTE]
 > As noted in Features, the new Erdplus format no longer uses true n-ary relationships, so a specific test for this legacy construct is not required. The parser handles the modern associative entity equivalent.
 
 ## Future Work (TODO)
 
-  * [ ] Refactor the code in `parser.ts` for better readability and maintenance, especially the attribute handling.
   * [ ] Implement proper automated unit tests (e.g., using Jest) to validate the output schema structure, rather than relying on manual file comparison.
-  * [ ] Implement **Zod** for robust schema validation on the input `.erdplus` files.
-
-> [!IMPORTANT]
-> As noted in `readErdplusFile.ts`, validating the input JSON with Zod is a high priority. It will make the parser much more resilient to unexpected file structures or future changes in the Erdplus format.

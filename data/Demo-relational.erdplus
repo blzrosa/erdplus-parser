@@ -1,0 +1,308 @@
+{
+  "diagramType": 2,
+  "data": {
+    "nodes": [
+      {
+        "id": "13083c2c-51ca-40fb-a3af-a712ee26723a",
+        "type": "Table",
+        "data": {
+          "label": "Professor",
+          "columns": [
+            {
+              "id": "bce5691c-6c70-415e-8f2d-e56e3a8e38c5",
+              "name": "Professor_id",
+              "position": 0,
+              "type": "INT",
+              "isPrimaryKey": true,
+              "isOptional": false,
+              "isUnique": true
+            }
+          ],
+          "isConnectable": false,
+          "isSelected": false
+        },
+        "position": {
+          "x": 562,
+          "y": 158
+        },
+        "measured": {
+          "width": 240,
+          "height": 51
+        },
+        "dragging": false,
+        "selected": false
+      },
+      {
+        "id": "1f437f2f-c989-4665-9d05-7c57502999e8",
+        "type": "Table",
+        "data": {
+          "label": "Aluno",
+          "columns": [
+            {
+              "id": "1e71ae05-66b6-4c4c-850d-8a8a89ddfa96",
+              "name": "Aluno_id",
+              "position": 0,
+              "type": "INT",
+              "isPrimaryKey": true,
+              "isOptional": false,
+              "isUnique": true
+            },
+            {
+              "id": "11a46d0a-2d2f-4105-b2c7-2dbd61361c92",
+              "name": "cr",
+              "position": 1,
+              "type": "None",
+              "isPrimaryKey": false,
+              "isOptional": false,
+              "groupNumbers": []
+            }
+          ],
+          "isConnectable": false,
+          "isSelected": false
+        },
+        "position": {
+          "x": 901,
+          "y": 93
+        },
+        "measured": {
+          "width": 240,
+          "height": 75
+        },
+        "dragging": false,
+        "selected": true
+      },
+      {
+        "id": "fcf80c0b-c7ec-46ed-9189-66efc5e5fb8c",
+        "type": "Table",
+        "data": {
+          "label": "Orientador",
+          "columns": [
+            {
+              "id": "fk_5f7fb0b4-8450-416a-a408-d87d6a93713d",
+              "name": "professor",
+              "type": "INT",
+              "isForeignKey": true,
+              "foreignKeyProps": {
+                "foreignKeyGroupId": "8fa90fc0-366a-45cf-847a-d19fa3da99ae",
+                "sourceTableId": "13083c2c-51ca-40fb-a3af-a712ee26723a",
+                "columns": [
+                  {
+                    "id": "fk_bce5691c-6c70-415e-8f2d-e56e3a8e38c5",
+                    "name": "Professor",
+                    "type": "INT"
+                  }
+                ]
+              },
+              "isPrimaryKey": true,
+              "position": 0
+            },
+            {
+              "id": "fk_c5c50b76-98a6-486e-8275-ee6e3e7af925",
+              "name": "aluno",
+              "type": "INT",
+              "isForeignKey": true,
+              "foreignKeyProps": {
+                "foreignKeyGroupId": "2dc5fbb9-3178-4790-97e6-f4ba33d87263",
+                "sourceTableId": "1f437f2f-c989-4665-9d05-7c57502999e8",
+                "columns": [
+                  {
+                    "id": "fk_1e71ae05-66b6-4c4c-850d-8a8a89ddfa96",
+                    "name": "Aluno",
+                    "type": "INT"
+                  }
+                ]
+              },
+              "isPrimaryKey": true,
+              "position": 1
+            }
+          ],
+          "isConnectable": false,
+          "isSelected": false
+        },
+        "position": {
+          "x": 568,
+          "y": 37
+        },
+        "measured": {
+          "width": 240,
+          "height": 76
+        },
+        "dragging": false,
+        "selected": false
+      },
+      {
+        "id": "b4258063-4023-4815-b4f0-e0228d63add4",
+        "type": "Table",
+        "data": {
+          "label": "Amigo",
+          "columns": [
+            {
+              "id": "fk_1c0212f6-9faa-4203-abc5-9112a0044748",
+              "name": "aluno(1)",
+              "type": "INT",
+              "isForeignKey": true,
+              "foreignKeyProps": {
+                "foreignKeyGroupId": "6b5451b4-5dd1-4025-9db5-f515aea4084e",
+                "sourceTableId": "1f437f2f-c989-4665-9d05-7c57502999e8",
+                "columns": [
+                  {
+                    "id": "fk_1e71ae05-66b6-4c4c-850d-8a8a89ddfa96",
+                    "name": "Aluno(1)",
+                    "type": "INT"
+                  }
+                ]
+              },
+              "isPrimaryKey": true,
+              "position": 0
+            },
+            {
+              "id": "fk_cb0be303-fd0f-4e26-9c95-403afd06fe96",
+              "name": "aluno(2)",
+              "type": "INT",
+              "isForeignKey": true,
+              "foreignKeyProps": {
+                "foreignKeyGroupId": "6693bf70-5fd8-4c9a-820d-aa6d13405704",
+                "sourceTableId": "1f437f2f-c989-4665-9d05-7c57502999e8",
+                "columns": [
+                  {
+                    "id": "fk_1e71ae05-66b6-4c4c-850d-8a8a89ddfa96",
+                    "name": "Aluno(2)",
+                    "type": "INT"
+                  }
+                ]
+              },
+              "isPrimaryKey": true,
+              "position": 1
+            }
+          ],
+          "isConnectable": false,
+          "isSelected": false
+        },
+        "position": {
+          "x": 918,
+          "y": -7
+        },
+        "measured": {
+          "width": 240,
+          "height": 76
+        },
+        "dragging": false,
+        "selected": false
+      }
+    ],
+    "edges": [
+      {
+        "id": "13083c2c-51ca-40fb-a3af-a712ee26723a->fcf80c0b-c7ec-46ed-9189-66efc5e5fb8c_8fa90fc0-366a-45cf-847a-d19fa3da99ae",
+        "type": "Relational",
+        "source": "13083c2c-51ca-40fb-a3af-a712ee26723a",
+        "target": "fcf80c0b-c7ec-46ed-9189-66efc5e5fb8c",
+        "targetHandle": "foreign-key-handle-8fa90fc0-366a-45cf-847a-d19fa3da99ae",
+        "markerStart": {
+          "type": "arrow"
+        },
+        "data": {
+          "foreignKeyProps": {
+            "foreignKeyGroupId": "8fa90fc0-366a-45cf-847a-d19fa3da99ae",
+            "sourceTableId": "13083c2c-51ca-40fb-a3af-a712ee26723a",
+            "columns": [
+              {
+                "id": "fk_bce5691c-6c70-415e-8f2d-e56e3a8e38c5",
+                "name": "Professor",
+                "type": "INT"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "id": "1f437f2f-c989-4665-9d05-7c57502999e8->fcf80c0b-c7ec-46ed-9189-66efc5e5fb8c_2dc5fbb9-3178-4790-97e6-f4ba33d87263",
+        "type": "Relational",
+        "source": "1f437f2f-c989-4665-9d05-7c57502999e8",
+        "target": "fcf80c0b-c7ec-46ed-9189-66efc5e5fb8c",
+        "targetHandle": "foreign-key-handle-2dc5fbb9-3178-4790-97e6-f4ba33d87263",
+        "markerStart": {
+          "type": "arrow"
+        },
+        "data": {
+          "foreignKeyProps": {
+            "foreignKeyGroupId": "2dc5fbb9-3178-4790-97e6-f4ba33d87263",
+            "sourceTableId": "1f437f2f-c989-4665-9d05-7c57502999e8",
+            "columns": [
+              {
+                "id": "fk_1e71ae05-66b6-4c4c-850d-8a8a89ddfa96",
+                "name": "Aluno",
+                "type": "INT"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "id": "1f437f2f-c989-4665-9d05-7c57502999e8->b4258063-4023-4815-b4f0-e0228d63add4_6b5451b4-5dd1-4025-9db5-f515aea4084e",
+        "type": "Relational",
+        "source": "1f437f2f-c989-4665-9d05-7c57502999e8",
+        "target": "b4258063-4023-4815-b4f0-e0228d63add4",
+        "targetHandle": "foreign-key-handle-6b5451b4-5dd1-4025-9db5-f515aea4084e",
+        "markerStart": {
+          "type": "arrow"
+        },
+        "data": {
+          "foreignKeyProps": {
+            "foreignKeyGroupId": "6b5451b4-5dd1-4025-9db5-f515aea4084e",
+            "sourceTableId": "1f437f2f-c989-4665-9d05-7c57502999e8",
+            "columns": [
+              {
+                "id": "fk_1e71ae05-66b6-4c4c-850d-8a8a89ddfa96",
+                "name": "Aluno(1)",
+                "type": "INT"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "id": "1f437f2f-c989-4665-9d05-7c57502999e8->b4258063-4023-4815-b4f0-e0228d63add4_6693bf70-5fd8-4c9a-820d-aa6d13405704",
+        "type": "Relational",
+        "source": "1f437f2f-c989-4665-9d05-7c57502999e8",
+        "target": "b4258063-4023-4815-b4f0-e0228d63add4",
+        "targetHandle": "foreign-key-handle-6693bf70-5fd8-4c9a-820d-aa6d13405704",
+        "markerStart": {
+          "type": "arrow"
+        },
+        "data": {
+          "foreignKeyProps": {
+            "foreignKeyGroupId": "6693bf70-5fd8-4c9a-820d-aa6d13405704",
+            "sourceTableId": "1f437f2f-c989-4665-9d05-7c57502999e8",
+            "columns": [
+              {
+                "id": "fk_1e71ae05-66b6-4c4c-850d-8a8a89ddfa96",
+                "name": "Aluno(2)",
+                "type": "INT"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "viewport": {
+      "x": -269.0223080311109,
+      "y": 162.3252812438756,
+      "zoom": 1.2008034274852086
+    }
+  },
+  "name": "Teste1-relational",
+  "folder": {
+    "name": "TestesParser",
+    "folderType": 2,
+    "parentFolder": {
+      "depth": 0,
+      "id": 18722,
+      "name": "Diagrams",
+      "folderType": 1
+    },
+    "depth": 1,
+    "id": 120822
+  },
+  "id": 143255,
+  "updatedAtTimestamp": 1762207982
+}

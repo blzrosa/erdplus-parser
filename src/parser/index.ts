@@ -2,7 +2,6 @@ import {
     Diagram,
     ErdDiagram,
     ErdNode,
-    Graph,
     RelationalEdge,
     RelationalNode,
     LabelNode,
@@ -13,7 +12,8 @@ import {
     RelationalGraph,
     RelationalDiagram
 } from '../core/types';
-import fixERD from '../utils/fixERD';
+import fixAttributes from '../utils/fixAttributes';
+import fixIds from '../utils/fixIds';
 import { handleAttributeNodes } from './handlers/attributeHandler';
 import { handleEntityNodes } from './handlers/entityHandler';
 import { handleLabelNodes } from './handlers/labelHandler';
@@ -133,7 +133,8 @@ export default function parseErdToRelational(diagram: Diagram): Diagram {
     const erd = diagram as ErdDiagram;
 
     // Fix potential inconsistencies in the ERD file first
-    fixERD(erd); 
+    fixIds(erd);
+    fixAttributes(erd);
     
     const relationalParsed: Diagram = buildRelationalDiagram(erd);
     return relationalParsed;

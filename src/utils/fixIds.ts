@@ -7,7 +7,7 @@ interface RelationshipMapEntry {
     targetRealId: string | null,
 }
 
-export default function fixERD(dg: Diagram) {
+export default function fixIds(dg: Diagram) {
     const nodes: ErdNode[] = dg.data.nodes as ErdNode[];
     const edges: ErdEdge[] = dg.data.edges as ErdEdge[];
     const relationshipMap: Map<string, RelationshipMapEntry> = new Map();

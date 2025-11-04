@@ -14,7 +14,7 @@
       "depth": 0
     }
   },
-  "updatedAtTimestamp": 1762262044,
+  "updatedAtTimestamp": 1762264180,
   "data": {
     "nodes": [
       {
@@ -24,13 +24,41 @@
           "label": "Produto",
           "columns": [
             {
-              "id": "4fcadcca-c7b0-4bce-8661-b952e67e0b69",
+              "id": "58bb4958-c8ab-435d-a7bd-002fac7ac9e5",
               "name": "Produto_id",
               "position": 0,
               "type": "INT",
               "isPrimaryKey": true,
               "isOptional": false,
               "isUnique": true
+            },
+            {
+              "id": "8c078618-b936-4a03-b8c3-8c7f2fcd9597",
+              "name": "prodid",
+              "position": 1,
+              "type": "None",
+              "isPrimaryKey": false,
+              "isOptional": false,
+              "isUnique": true,
+              "groupNumbers": []
+            },
+            {
+              "id": "f961d6a1-60e8-45da-857d-38b767f8a8ac",
+              "name": "prodnome",
+              "position": 2,
+              "type": "None",
+              "isPrimaryKey": false,
+              "isOptional": false,
+              "groupNumbers": []
+            },
+            {
+              "id": "deabcd26-c8cb-4a15-b333-5b15c5bdd367",
+              "name": "prodpreco",
+              "position": 3,
+              "type": "None",
+              "isPrimaryKey": false,
+              "isOptional": false,
+              "groupNumbers": []
             }
           ],
           "isConnectable": true,
@@ -54,7 +82,7 @@
           "label": "Fornecedor",
           "columns": [
             {
-              "id": "8b8ac788-0325-4496-b2cf-38a4840f1665",
+              "id": "7aa5e245-f4be-4470-86c5-0564d5d7b5bc",
               "name": "Fornecedor_id",
               "position": 0,
               "type": "INT",
@@ -63,22 +91,41 @@
               "isUnique": true
             },
             {
-              "id": "fk_67664352-05c7-4634-8c1f-574c5d5d490f",
+              "id": "fk_26852c8d-e9bf-4cc7-8e23-7ea8389c5f28",
               "name": "fornecido_por",
               "type": "INT",
               "isForeignKey": true,
               "foreignKeyProps": {
-                "foreignKeyGroupId": "e23a283e-bef8-47f9-9aa1-07a20f0256f5",
+                "foreignKeyGroupId": "2ba8ab4d-c6c9-4a69-bb59-db341297a255",
                 "sourceTableId": "169d9618-dd51-4ed7-8182-fd8709a83de8",
                 "columns": [
                   {
-                    "id": "fk_4fcadcca-c7b0-4bce-8661-b952e67e0b69",
+                    "id": "fk_58bb4958-c8ab-435d-a7bd-002fac7ac9e5",
                     "name": "Fornecido_por",
                     "type": "INT"
                   }
                 ]
               },
               "position": 1
+            },
+            {
+              "id": "791961c4-c570-4909-bbd5-a3ee5817a3dc",
+              "name": "fornid",
+              "position": 2,
+              "type": "None",
+              "isPrimaryKey": false,
+              "isOptional": false,
+              "isUnique": true,
+              "groupNumbers": []
+            },
+            {
+              "id": "2419d52a-c8db-442f-ac54-d44de54e0a8f",
+              "name": "fornnome",
+              "position": 3,
+              "type": "None",
+              "isPrimaryKey": false,
+              "isOptional": false,
+              "groupNumbers": []
             }
           ],
           "isConnectable": true,
@@ -102,7 +149,7 @@
           "label": "Cliente",
           "columns": [
             {
-              "id": "bc5c6a5b-a8d6-4127-b342-fb7b16bee4ba",
+              "id": "430b35a9-a5ac-4b7a-b211-7e097d18ba3c",
               "name": "Cliente_id",
               "position": 0,
               "type": "INT",
@@ -111,22 +158,50 @@
               "isUnique": true
             },
             {
-              "id": "fk_7892d10b-b386-47f4-8c53-afee13eb3ea4",
+              "id": "fk_a81bb23b-0f15-4d7c-97ee-98a677d5a4b3",
               "name": "realizada_por",
               "type": "INT",
               "isForeignKey": true,
               "foreignKeyProps": {
-                "foreignKeyGroupId": "122afc40-a436-46df-9cd8-705451c7f57f",
+                "foreignKeyGroupId": "fa05803d-7454-4d54-ac51-0624dcd80597",
                 "sourceTableId": "a5105e4f-f62e-4308-8f14-8e0cdef9f599",
                 "columns": [
                   {
-                    "id": "fk_e49eb7bb-8168-4e0b-bb61-8ca5a7d74acb",
+                    "id": "fk_06741d39-6af6-42b8-8fb5-b5e80cac082c",
                     "name": "Realizada_por",
                     "type": "INT"
                   }
                 ]
               },
               "position": 1
+            },
+            {
+              "id": "9571ecfd-2b49-4e24-8b0f-8de0f0c228b1",
+              "name": "clienteid",
+              "position": 2,
+              "type": "None",
+              "isPrimaryKey": false,
+              "isOptional": false,
+              "isUnique": true,
+              "groupNumbers": []
+            },
+            {
+              "id": "0c405c2e-621b-4923-8512-ce0a623dc8e0",
+              "name": "clientenome",
+              "position": 3,
+              "type": "None",
+              "isPrimaryKey": false,
+              "isOptional": false,
+              "groupNumbers": []
+            },
+            {
+              "id": "d4098ab8-d74a-449a-9ef2-3a8e2611489d",
+              "name": "clientecep",
+              "position": 4,
+              "type": "None",
+              "isPrimaryKey": false,
+              "isOptional": false,
+              "groupNumbers": []
             }
           ],
           "isConnectable": true,
@@ -150,7 +225,7 @@
           "label": "Loja",
           "columns": [
             {
-              "id": "cffea08c-2dea-432b-80a6-2edfe9e011c1",
+              "id": "21cad6fe-8204-4aaf-bdf6-49df73f44a07",
               "name": "Loja_id",
               "position": 0,
               "type": "INT",
@@ -159,22 +234,41 @@
               "isUnique": true
             },
             {
-              "id": "fk_265d9b17-6eee-412d-951d-1a9ab2061c9e",
+              "id": "fk_1ad41b4f-e33d-4cae-a813-8966f53805a8",
               "name": "ocorre_em",
               "type": "INT",
               "isForeignKey": true,
               "foreignKeyProps": {
-                "foreignKeyGroupId": "056bfcce-681a-4661-8545-9ce44278e0a1",
+                "foreignKeyGroupId": "c142036b-f3f4-42a3-b80d-fe7d6a191627",
                 "sourceTableId": "a5105e4f-f62e-4308-8f14-8e0cdef9f599",
                 "columns": [
                   {
-                    "id": "fk_e49eb7bb-8168-4e0b-bb61-8ca5a7d74acb",
+                    "id": "fk_06741d39-6af6-42b8-8fb5-b5e80cac082c",
                     "name": "Ocorre_em",
                     "type": "INT"
                   }
                 ]
               },
               "position": 1
+            },
+            {
+              "id": "b83b7e7c-caca-4cc8-8140-2cd6a1193513",
+              "name": "lojaid",
+              "position": 2,
+              "type": "None",
+              "isPrimaryKey": false,
+              "isOptional": false,
+              "isUnique": true,
+              "groupNumbers": []
+            },
+            {
+              "id": "d4813e17-b9fe-4319-a01a-b317ad40f7fb",
+              "name": "lojacep",
+              "position": 3,
+              "type": "None",
+              "isPrimaryKey": false,
+              "isOptional": false,
+              "groupNumbers": []
             }
           ],
           "isConnectable": true,
@@ -198,7 +292,7 @@
           "label": "Regiao",
           "columns": [
             {
-              "id": "18cc614d-4d2a-4cc2-b81f-0595602b0e1d",
+              "id": "98c15c57-8c0c-4165-a415-960fc2db3bd2",
               "name": "Regiao_id",
               "position": 0,
               "type": "INT",
@@ -207,22 +301,41 @@
               "isUnique": true
             },
             {
-              "id": "fk_1cbc9dba-662e-42e3-b621-efb7383c33eb",
+              "id": "fk_ca158cc8-7304-4936-bfe8-340c2d531b41",
               "name": "locaizada_em",
               "type": "INT",
               "isForeignKey": true,
               "foreignKeyProps": {
-                "foreignKeyGroupId": "e06c7012-af55-45c5-a3df-4736e40402b8",
+                "foreignKeyGroupId": "00b20654-1dc0-4513-89ff-c449a6baeee0",
                 "sourceTableId": "bddd8ba2-37b8-442b-8f2a-8d8308b4d843",
                 "columns": [
                   {
-                    "id": "fk_cffea08c-2dea-432b-80a6-2edfe9e011c1",
+                    "id": "fk_21cad6fe-8204-4aaf-bdf6-49df73f44a07",
                     "name": "Locaizada_em",
                     "type": "INT"
                   }
                 ]
               },
               "position": 1
+            },
+            {
+              "id": "5a06669e-5ba3-4378-8a5b-07f728e8b19a",
+              "name": "regiaoid",
+              "position": 2,
+              "type": "None",
+              "isPrimaryKey": false,
+              "isOptional": false,
+              "isUnique": true,
+              "groupNumbers": []
+            },
+            {
+              "id": "d9e2a139-62ec-4cf0-a90e-a591c613d0c2",
+              "name": "regiaonome",
+              "position": 3,
+              "type": "None",
+              "isPrimaryKey": false,
+              "isOptional": false,
+              "groupNumbers": []
             }
           ],
           "isConnectable": true,
@@ -246,13 +359,32 @@
           "label": "Trans_de_Venda",
           "columns": [
             {
-              "id": "e49eb7bb-8168-4e0b-bb61-8ca5a7d74acb",
+              "id": "06741d39-6af6-42b8-8fb5-b5e80cac082c",
               "name": "Trans_de_Venda_id",
               "position": 0,
               "type": "INT",
               "isPrimaryKey": true,
               "isOptional": false,
               "isUnique": true
+            },
+            {
+              "id": "7adf00b0-42ea-4215-93b6-e11b61158b12",
+              "name": "trnvendaid",
+              "position": 1,
+              "type": "None",
+              "isPrimaryKey": false,
+              "isOptional": false,
+              "isUnique": true,
+              "groupNumbers": []
+            },
+            {
+              "id": "fc83b66c-abc0-43d3-8ec6-ae8ab19be065",
+              "name": "trnvendadata",
+              "position": 2,
+              "type": "None",
+              "isPrimaryKey": false,
+              "isOptional": false,
+              "groupNumbers": []
             }
           ],
           "isConnectable": true,
@@ -276,7 +408,7 @@
           "label": "Categoria",
           "columns": [
             {
-              "id": "92187394-b01c-4bd8-a73c-bd21b5241480",
+              "id": "2c98ac08-955f-4c1e-a1da-2e5862bab41f",
               "name": "Categoria_id",
               "position": 0,
               "type": "INT",
@@ -285,22 +417,41 @@
               "isUnique": true
             },
             {
-              "id": "fk_4bc9d1cb-2953-4c19-befd-6679f582d3d8",
+              "id": "fk_c9f49fad-7be3-4e7b-9b0d-94a9b1d2f7ba",
               "name": "pertence_a",
               "type": "INT",
               "isForeignKey": true,
               "foreignKeyProps": {
-                "foreignKeyGroupId": "df0c8da3-5235-46ea-8fde-b8af4a6a3a95",
+                "foreignKeyGroupId": "a87af685-2669-4ed1-879e-ad99b8989f8a",
                 "sourceTableId": "169d9618-dd51-4ed7-8182-fd8709a83de8",
                 "columns": [
                   {
-                    "id": "fk_4fcadcca-c7b0-4bce-8661-b952e67e0b69",
+                    "id": "fk_58bb4958-c8ab-435d-a7bd-002fac7ac9e5",
                     "name": "Pertence_a",
                     "type": "INT"
                   }
                 ]
               },
               "position": 1
+            },
+            {
+              "id": "a3e29110-9d4b-418c-9b2c-c9d9248fa71e",
+              "name": "categid",
+              "position": 2,
+              "type": "None",
+              "isPrimaryKey": false,
+              "isOptional": false,
+              "isUnique": true,
+              "groupNumbers": []
+            },
+            {
+              "id": "2239fbf5-dcff-461f-9cc8-3cdcc02c1d0c",
+              "name": "categnome",
+              "position": 3,
+              "type": "None",
+              "isPrimaryKey": false,
+              "isOptional": false,
+              "groupNumbers": []
             }
           ],
           "isConnectable": true,
@@ -324,16 +475,16 @@
           "label": "Incluido_em",
           "columns": [
             {
-              "id": "fk_de639ba0-2f7e-4cd6-8160-f0aae024f027",
+              "id": "fk_345a3421-5762-451b-8823-caa59ff8d6f0",
               "name": "produto",
               "type": "INT",
               "isForeignKey": true,
               "foreignKeyProps": {
-                "foreignKeyGroupId": "5e83395a-63cf-41bc-84e8-7730ce9a67b0",
+                "foreignKeyGroupId": "d257ac98-fb43-4957-a923-f8bf6bc49d36",
                 "sourceTableId": "169d9618-dd51-4ed7-8182-fd8709a83de8",
                 "columns": [
                   {
-                    "id": "fk_4fcadcca-c7b0-4bce-8661-b952e67e0b69",
+                    "id": "fk_58bb4958-c8ab-435d-a7bd-002fac7ac9e5",
                     "name": "Produto",
                     "type": "INT"
                   }
@@ -343,16 +494,16 @@
               "position": 0
             },
             {
-              "id": "fk_16186bbd-047d-43bc-8923-8e4638861537",
+              "id": "fk_8a8bcf71-6b98-4d28-956a-f88d6358916e",
               "name": "trans_de_venda",
               "type": "INT",
               "isForeignKey": true,
               "foreignKeyProps": {
-                "foreignKeyGroupId": "4847e6fe-534b-4676-a585-63e5d5d0bfe1",
+                "foreignKeyGroupId": "e4a67fb1-bfde-47cb-88fb-7898606e148b",
                 "sourceTableId": "a5105e4f-f62e-4308-8f14-8e0cdef9f599",
                 "columns": [
                   {
-                    "id": "fk_e49eb7bb-8168-4e0b-bb61-8ca5a7d74acb",
+                    "id": "fk_06741d39-6af6-42b8-8fb5-b5e80cac082c",
                     "name": "Trans_de_Venda",
                     "type": "INT"
                   }
@@ -360,6 +511,15 @@
               },
               "isPrimaryKey": true,
               "position": 1
+            },
+            {
+              "id": "f8eb3d6a-8138-475c-900a-ab62ac6ff13d",
+              "name": "qtdprodtransv",
+              "position": 2,
+              "type": "None",
+              "isPrimaryKey": false,
+              "isOptional": false,
+              "groupNumbers": []
             }
           ],
           "isConnectable": true,
@@ -379,21 +539,21 @@
     ],
     "edges": [
       {
-        "id": "169d9618-dd51-4ed7-8182-fd8709a83de8->e5a818b3-2a51-45ad-8cd6-53aa1fc56ae6_e23a283e-bef8-47f9-9aa1-07a20f0256f5",
+        "id": "169d9618-dd51-4ed7-8182-fd8709a83de8->e5a818b3-2a51-45ad-8cd6-53aa1fc56ae6_2ba8ab4d-c6c9-4a69-bb59-db341297a255",
         "type": "Relational",
         "source": "169d9618-dd51-4ed7-8182-fd8709a83de8",
         "target": "e5a818b3-2a51-45ad-8cd6-53aa1fc56ae6",
-        "targetHandle": "foreign-key-handle-e23a283e-bef8-47f9-9aa1-07a20f0256f5",
+        "targetHandle": "foreign-key-handle-2ba8ab4d-c6c9-4a69-bb59-db341297a255",
         "markerStart": {
           "type": "arrow"
         },
         "data": {
           "foreignKeyProps": {
-            "foreignKeyGroupId": "e23a283e-bef8-47f9-9aa1-07a20f0256f5",
+            "foreignKeyGroupId": "2ba8ab4d-c6c9-4a69-bb59-db341297a255",
             "sourceTableId": "169d9618-dd51-4ed7-8182-fd8709a83de8",
             "columns": [
               {
-                "id": "fk_4fcadcca-c7b0-4bce-8661-b952e67e0b69",
+                "id": "fk_58bb4958-c8ab-435d-a7bd-002fac7ac9e5",
                 "name": "Fornecido_por",
                 "type": "INT"
               }
@@ -402,21 +562,21 @@
         }
       },
       {
-        "id": "169d9618-dd51-4ed7-8182-fd8709a83de8->0671582e-3d5d-4f2d-9d43-a6c21fcf0b5f_df0c8da3-5235-46ea-8fde-b8af4a6a3a95",
+        "id": "169d9618-dd51-4ed7-8182-fd8709a83de8->0671582e-3d5d-4f2d-9d43-a6c21fcf0b5f_a87af685-2669-4ed1-879e-ad99b8989f8a",
         "type": "Relational",
         "source": "169d9618-dd51-4ed7-8182-fd8709a83de8",
         "target": "0671582e-3d5d-4f2d-9d43-a6c21fcf0b5f",
-        "targetHandle": "foreign-key-handle-df0c8da3-5235-46ea-8fde-b8af4a6a3a95",
+        "targetHandle": "foreign-key-handle-a87af685-2669-4ed1-879e-ad99b8989f8a",
         "markerStart": {
           "type": "arrow"
         },
         "data": {
           "foreignKeyProps": {
-            "foreignKeyGroupId": "df0c8da3-5235-46ea-8fde-b8af4a6a3a95",
+            "foreignKeyGroupId": "a87af685-2669-4ed1-879e-ad99b8989f8a",
             "sourceTableId": "169d9618-dd51-4ed7-8182-fd8709a83de8",
             "columns": [
               {
-                "id": "fk_4fcadcca-c7b0-4bce-8661-b952e67e0b69",
+                "id": "fk_58bb4958-c8ab-435d-a7bd-002fac7ac9e5",
                 "name": "Pertence_a",
                 "type": "INT"
               }
@@ -425,21 +585,21 @@
         }
       },
       {
-        "id": "bddd8ba2-37b8-442b-8f2a-8d8308b4d843->dc1984f4-73b7-42ba-9bd6-b92353d79939_e06c7012-af55-45c5-a3df-4736e40402b8",
+        "id": "bddd8ba2-37b8-442b-8f2a-8d8308b4d843->dc1984f4-73b7-42ba-9bd6-b92353d79939_00b20654-1dc0-4513-89ff-c449a6baeee0",
         "type": "Relational",
         "source": "bddd8ba2-37b8-442b-8f2a-8d8308b4d843",
         "target": "dc1984f4-73b7-42ba-9bd6-b92353d79939",
-        "targetHandle": "foreign-key-handle-e06c7012-af55-45c5-a3df-4736e40402b8",
+        "targetHandle": "foreign-key-handle-00b20654-1dc0-4513-89ff-c449a6baeee0",
         "markerStart": {
           "type": "arrow"
         },
         "data": {
           "foreignKeyProps": {
-            "foreignKeyGroupId": "e06c7012-af55-45c5-a3df-4736e40402b8",
+            "foreignKeyGroupId": "00b20654-1dc0-4513-89ff-c449a6baeee0",
             "sourceTableId": "bddd8ba2-37b8-442b-8f2a-8d8308b4d843",
             "columns": [
               {
-                "id": "fk_cffea08c-2dea-432b-80a6-2edfe9e011c1",
+                "id": "fk_21cad6fe-8204-4aaf-bdf6-49df73f44a07",
                 "name": "Locaizada_em",
                 "type": "INT"
               }
@@ -448,21 +608,21 @@
         }
       },
       {
-        "id": "a5105e4f-f62e-4308-8f14-8e0cdef9f599->bddd8ba2-37b8-442b-8f2a-8d8308b4d843_056bfcce-681a-4661-8545-9ce44278e0a1",
+        "id": "a5105e4f-f62e-4308-8f14-8e0cdef9f599->bddd8ba2-37b8-442b-8f2a-8d8308b4d843_c142036b-f3f4-42a3-b80d-fe7d6a191627",
         "type": "Relational",
         "source": "a5105e4f-f62e-4308-8f14-8e0cdef9f599",
         "target": "bddd8ba2-37b8-442b-8f2a-8d8308b4d843",
-        "targetHandle": "foreign-key-handle-056bfcce-681a-4661-8545-9ce44278e0a1",
+        "targetHandle": "foreign-key-handle-c142036b-f3f4-42a3-b80d-fe7d6a191627",
         "markerStart": {
           "type": "arrow"
         },
         "data": {
           "foreignKeyProps": {
-            "foreignKeyGroupId": "056bfcce-681a-4661-8545-9ce44278e0a1",
+            "foreignKeyGroupId": "c142036b-f3f4-42a3-b80d-fe7d6a191627",
             "sourceTableId": "a5105e4f-f62e-4308-8f14-8e0cdef9f599",
             "columns": [
               {
-                "id": "fk_e49eb7bb-8168-4e0b-bb61-8ca5a7d74acb",
+                "id": "fk_06741d39-6af6-42b8-8fb5-b5e80cac082c",
                 "name": "Ocorre_em",
                 "type": "INT"
               }
@@ -471,21 +631,21 @@
         }
       },
       {
-        "id": "a5105e4f-f62e-4308-8f14-8e0cdef9f599->0db6b4d1-51f8-4db2-994f-b5e752137988_122afc40-a436-46df-9cd8-705451c7f57f",
+        "id": "a5105e4f-f62e-4308-8f14-8e0cdef9f599->0db6b4d1-51f8-4db2-994f-b5e752137988_fa05803d-7454-4d54-ac51-0624dcd80597",
         "type": "Relational",
         "source": "a5105e4f-f62e-4308-8f14-8e0cdef9f599",
         "target": "0db6b4d1-51f8-4db2-994f-b5e752137988",
-        "targetHandle": "foreign-key-handle-122afc40-a436-46df-9cd8-705451c7f57f",
+        "targetHandle": "foreign-key-handle-fa05803d-7454-4d54-ac51-0624dcd80597",
         "markerStart": {
           "type": "arrow"
         },
         "data": {
           "foreignKeyProps": {
-            "foreignKeyGroupId": "122afc40-a436-46df-9cd8-705451c7f57f",
+            "foreignKeyGroupId": "fa05803d-7454-4d54-ac51-0624dcd80597",
             "sourceTableId": "a5105e4f-f62e-4308-8f14-8e0cdef9f599",
             "columns": [
               {
-                "id": "fk_e49eb7bb-8168-4e0b-bb61-8ca5a7d74acb",
+                "id": "fk_06741d39-6af6-42b8-8fb5-b5e80cac082c",
                 "name": "Realizada_por",
                 "type": "INT"
               }
@@ -494,21 +654,21 @@
         }
       },
       {
-        "id": "169d9618-dd51-4ed7-8182-fd8709a83de8->bf825553-5a9e-4c6c-b4f6-63af8d25dcaa_5e83395a-63cf-41bc-84e8-7730ce9a67b0",
+        "id": "169d9618-dd51-4ed7-8182-fd8709a83de8->bf825553-5a9e-4c6c-b4f6-63af8d25dcaa_d257ac98-fb43-4957-a923-f8bf6bc49d36",
         "type": "Relational",
         "source": "169d9618-dd51-4ed7-8182-fd8709a83de8",
         "target": "bf825553-5a9e-4c6c-b4f6-63af8d25dcaa",
-        "targetHandle": "foreign-key-handle-5e83395a-63cf-41bc-84e8-7730ce9a67b0",
+        "targetHandle": "foreign-key-handle-d257ac98-fb43-4957-a923-f8bf6bc49d36",
         "markerStart": {
           "type": "arrow"
         },
         "data": {
           "foreignKeyProps": {
-            "foreignKeyGroupId": "5e83395a-63cf-41bc-84e8-7730ce9a67b0",
+            "foreignKeyGroupId": "d257ac98-fb43-4957-a923-f8bf6bc49d36",
             "sourceTableId": "169d9618-dd51-4ed7-8182-fd8709a83de8",
             "columns": [
               {
-                "id": "fk_4fcadcca-c7b0-4bce-8661-b952e67e0b69",
+                "id": "fk_58bb4958-c8ab-435d-a7bd-002fac7ac9e5",
                 "name": "Produto",
                 "type": "INT"
               }
@@ -517,21 +677,21 @@
         }
       },
       {
-        "id": "a5105e4f-f62e-4308-8f14-8e0cdef9f599->bf825553-5a9e-4c6c-b4f6-63af8d25dcaa_4847e6fe-534b-4676-a585-63e5d5d0bfe1",
+        "id": "a5105e4f-f62e-4308-8f14-8e0cdef9f599->bf825553-5a9e-4c6c-b4f6-63af8d25dcaa_e4a67fb1-bfde-47cb-88fb-7898606e148b",
         "type": "Relational",
         "source": "a5105e4f-f62e-4308-8f14-8e0cdef9f599",
         "target": "bf825553-5a9e-4c6c-b4f6-63af8d25dcaa",
-        "targetHandle": "foreign-key-handle-4847e6fe-534b-4676-a585-63e5d5d0bfe1",
+        "targetHandle": "foreign-key-handle-e4a67fb1-bfde-47cb-88fb-7898606e148b",
         "markerStart": {
           "type": "arrow"
         },
         "data": {
           "foreignKeyProps": {
-            "foreignKeyGroupId": "4847e6fe-534b-4676-a585-63e5d5d0bfe1",
+            "foreignKeyGroupId": "e4a67fb1-bfde-47cb-88fb-7898606e148b",
             "sourceTableId": "a5105e4f-f62e-4308-8f14-8e0cdef9f599",
             "columns": [
               {
-                "id": "fk_e49eb7bb-8168-4e0b-bb61-8ca5a7d74acb",
+                "id": "fk_06741d39-6af6-42b8-8fb5-b5e80cac082c",
                 "name": "Trans_de_Venda",
                 "type": "INT"
               }

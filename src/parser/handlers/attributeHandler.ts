@@ -61,9 +61,7 @@ function handleCompositeMultivaluedAttribute(
     const fkProps: ForeignKeyProps = {
         foreignKeyGroupId: uuidv4(),
         sourceTableId: parentTable.id,
-        columns: parentPks.length > 1 ?
-        parentPks.map((pk, index) => toFkSimpleColumn(pk, parentTable, `${parentTable.data.label}_${index+1}`)) :
-        parentPks.map(pk => toFkSimpleColumn(pk, parentTable, parentTable.data.label)),
+        columns: parentPks.map(pk => toFkSimpleColumn(pk, parentTable, pk.name)),
     };
     let currentPosition = 0;
     const fkColumn = createFkColumn(node.data.label, 'INT', fkProps, false);
@@ -135,9 +133,7 @@ function handleMultivaluedAttribute(
         const fkProps: ForeignKeyProps = {
             foreignKeyGroupId: uuidv4(),
             sourceTableId: parentTable.id,
-            columns: parentPks.length > 1 ?
-            parentPks.map((pk, index) => toFkSimpleColumn(pk, parentTable, `${parentTable.data.label}_${index+1}`)) :
-            parentPks.map(pk => toFkSimpleColumn(pk, parentTable, parentTable.data.label)),
+            columns: parentPks.map(pk => toFkSimpleColumn(pk, parentTable, pk.name)),
         };
 
         let currentPosition = 0;
