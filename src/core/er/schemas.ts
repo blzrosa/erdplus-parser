@@ -15,12 +15,12 @@ import {
 
 export const RelationshipConstraintsSchema = z.object({
     role: z.string(),
-    min: IntSchema.optional(),
-    max: IntSchema.optional(),
+    min: IntSchema.optional().nullable(),
+    max: IntSchema.optional().nullable(),
 });
 
 export const EntityDetailsSchema = z.object({
-    id: UuidSchema,
+    id: z.string(),
     exactConstraints: RelationshipConstraintsSchema.optional(),
     minCardinality: MinCardinalitySchema.optional(),
     maxCardinality: MaxCardinalitySchema.optional(),
@@ -49,7 +49,7 @@ export const EntityNodeTypeSchema = z.enum([
 
 export const EntityNodeDataSchema = BaseNodeDataSchema.extend({
     type: EntityNodeTypeSchema,
-    parentId: UuidSchema.optional(),
+    parentId: UuidSchema.optional().nullable(),
 });
 
 export const SupertypeDefinitionSchema = z.enum([
@@ -69,7 +69,7 @@ export const AttributeNodeDataSchema = BaseNodeDataSchema.extend({
 
 export const AttributeNodeSchema = BaseNodeSchema.extend({
     type: z.literal('Attribute'),
-    parentId: UuidSchema.optional(),
+    parentId: UuidSchema.optional().nullable(),
     data: AttributeNodeDataSchema,
 });
 
@@ -96,12 +96,13 @@ export const ErdNodeSchema = z.discriminatedUnion("type", [
 export const AttributeEdgeSchema = BaseEdgeSchema.extend({
     id: UuidSchema,
     type: z.literal('Attribute'),
+    data: z.undefined().optional(),
 });
 
 export const SupertypeEdgeSchema = BaseEdgeSchema.extend({
     id: z.string().regex(/.+->.+/), // {source}->{target}
     type: z.literal('Supertype'),
-    data: EntityNodeSchema,
+    data: EntityNodeDataSchema.optional(),
 });
 
 export const RelationshipEdgeDataSchema = z.object({

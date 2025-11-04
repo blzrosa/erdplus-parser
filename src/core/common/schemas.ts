@@ -45,15 +45,15 @@ export const ViewportSchema = z.object({
 
 export const BaseNodeDataSchema = z.object({
     label: z.string(),
-    isConnectable: z.boolean(),
-    isSelected: z.boolean(),
+    isConnectable: z.boolean().optional(),
+    isSelected: z.boolean().optional(),
 });
 
 export const BaseNodeSchema = z.object({
     id: UuidSchema,
-    dragging: z.boolean(),
+    dragging: z.boolean().optional(),
     measured: MeasuredSchema,
-    selected: z.boolean(),
+    selected: z.boolean().optional(),
     position: PositionSchema,
 });
 
@@ -69,13 +69,13 @@ export const LabelNodeDataSchema = BaseNodeDataSchema.extend({});
 
 export const LabelNodeSchema = BaseNodeSchema.extend({
     type: z.literal('Label'),
-    data: LabelNodeDataSchema,
+    data: LabelNodeDataSchema.optional(),
 });
 
 // Metadata
 export const FolderSchema = z.object({
     name: z.string(),
-    id: z.string(),
+    id: z.coerce.string(),
     folderType: IntSchema,
     depth: IntSchema,
 });

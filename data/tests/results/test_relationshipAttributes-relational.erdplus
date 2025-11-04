@@ -4,17 +4,17 @@
   "name": "test_relationshipAttributes_Relational",
   "folder": {
     "name": "TestesParser",
+    "id": "120822",
     "folderType": 2,
-    "parentFolder": {
-      "depth": 0,
-      "id": 18722,
-      "name": "Diagrams",
-      "folderType": 1
-    },
     "depth": 1,
-    "id": 120822
+    "parentFolder": {
+      "name": "Diagrams",
+      "id": "18722",
+      "folderType": 1,
+      "depth": 0
+    }
   },
-  "updatedAtTimestamp": "1762207323",
+  "updatedAtTimestamp": 1762262044,
   "data": {
     "nodes": [
       {
@@ -24,7 +24,7 @@
           "label": "E01",
           "columns": [
             {
-              "id": "387f5916-29be-4141-88ba-a5176f626114",
+              "id": "38b5f56d-ec9d-4bd2-b327-a4cc4e0e62bc",
               "name": "E01_id",
               "position": 0,
               "type": "INT",
@@ -33,16 +33,16 @@
               "isUnique": true
             },
             {
-              "id": "fk_8d8bf8af-1bf4-4d5e-a4ab-be43f44adda5",
+              "id": "fk_6dd6958c-53b1-4528-81e8-2cf38943b33a",
               "name": "1,1:1,1",
               "type": "INT",
               "isForeignKey": true,
               "foreignKeyProps": {
-                "foreignKeyGroupId": "1240d7c2-1feb-4018-814c-9def10833472",
+                "foreignKeyGroupId": "538ed0c6-c481-4bb5-93f2-4234fc15c9d4",
                 "sourceTableId": "509aaba6-267a-4e3d-9ed7-6fa1a1d4d6f6",
                 "columns": [
                   {
-                    "id": "fk_a7114437-375f-4c24-ae05-6c7483f1fcb3",
+                    "id": "fk_d67de819-ea4a-426b-8558-3cb6d83db8ef",
                     "name": "1,1:1,1",
                     "type": "INT"
                   }
@@ -100,7 +100,7 @@
           "label": "E02",
           "columns": [
             {
-              "id": "a7114437-375f-4c24-ae05-6c7483f1fcb3",
+              "id": "d67de819-ea4a-426b-8558-3cb6d83db8ef",
               "name": "E02_id",
               "position": 0,
               "type": "INT",
@@ -109,16 +109,16 @@
               "isUnique": true
             },
             {
-              "id": "fk_a36f2cc6-0e8d-4b3e-81f5-938fb4dcd896",
+              "id": "fk_f290048b-38ec-43a1-9d08-64550720cd34",
               "name": "0,1:1,1",
               "type": "INT",
               "isForeignKey": true,
               "foreignKeyProps": {
-                "foreignKeyGroupId": "109eb1b3-a4c3-4d2b-883f-4a56345a6046",
+                "foreignKeyGroupId": "c911bea0-5ca2-4fd2-80e5-76aedf6a8841",
                 "sourceTableId": "b4144001-7a30-46f0-bb59-3600b19b0354",
                 "columns": [
                   {
-                    "id": "fk_387f5916-29be-4141-88ba-a5176f626114",
+                    "id": "fk_38b5f56d-ec9d-4bd2-b327-a4cc4e0e62bc",
                     "name": "0,1:1,1",
                     "type": "INT"
                   }
@@ -128,16 +128,16 @@
               "position": 1
             },
             {
-              "id": "fk_dbd4e4a2-cd47-4045-9899-b1bc55958c61",
+              "id": "fk_b15d10cd-3c37-45a9-beea-74b7b726fdfb",
               "name": "0,1:0,1",
               "type": "INT",
               "isForeignKey": true,
               "foreignKeyProps": {
-                "foreignKeyGroupId": "0e9bab73-f75e-4022-862e-4ed3f8023566",
+                "foreignKeyGroupId": "778ef1fa-a70e-42f9-8076-1162073a4f2d",
                 "sourceTableId": "b4144001-7a30-46f0-bb59-3600b19b0354",
                 "columns": [
                   {
-                    "id": "fk_387f5916-29be-4141-88ba-a5176f626114",
+                    "id": "fk_38b5f56d-ec9d-4bd2-b327-a4cc4e0e62bc",
                     "name": "0,1:0,1",
                     "type": "INT"
                   }
@@ -168,7 +168,7 @@
           "label": "E03",
           "columns": [
             {
-              "id": "c3c4b086-7b34-463d-9395-dce80d472cab",
+              "id": "225490c4-ce08-4b63-b0a5-3c55597f2035",
               "name": "E03_id",
               "position": 0,
               "type": "INT",
@@ -177,16 +177,16 @@
               "isUnique": true
             },
             {
-              "id": "fk_b7523450-c862-4b45-a433-1a3fa13b4f2c",
+              "id": "fk_22caac12-8c31-4893-a056-56d678988cc4",
               "name": "1,1:1,n",
               "type": "INT",
               "isForeignKey": true,
               "foreignKeyProps": {
-                "foreignKeyGroupId": "dec7c3cd-2132-4adb-bd74-a70b33092017",
+                "foreignKeyGroupId": "a167c267-70b0-420d-88c1-6c62ee8ce590",
                 "sourceTableId": "450793ea-66db-456f-acb6-0f4762818db4",
                 "columns": [
                   {
-                    "id": "fk_fbc326db-90fe-46f6-8ae7-b7478b64e7ff",
+                    "id": "fk_bc67fe88-59a6-4bdd-8bfb-7e7ec56f55d5",
                     "name": "1,1:1,n",
                     "type": "INT"
                   }
@@ -195,16 +195,16 @@
               "position": 1
             },
             {
-              "id": "fk_c8d5ad7d-2ea8-4ee5-8b93-c5b8766501c8",
+              "id": "fk_c9058146-ab2a-47e9-9548-e4d0995f6773",
               "name": "1,1:0,n",
               "type": "INT",
               "isForeignKey": true,
               "foreignKeyProps": {
-                "foreignKeyGroupId": "54ba522c-d52d-4456-817a-7b7c755d57c0",
+                "foreignKeyGroupId": "1655d8ba-dd2d-41be-8dfd-8ac04f62436c",
                 "sourceTableId": "450793ea-66db-456f-acb6-0f4762818db4",
                 "columns": [
                   {
-                    "id": "fk_fbc326db-90fe-46f6-8ae7-b7478b64e7ff",
+                    "id": "fk_bc67fe88-59a6-4bdd-8bfb-7e7ec56f55d5",
                     "name": "1,1:0,n",
                     "type": "INT"
                   }
@@ -213,16 +213,16 @@
               "position": 2
             },
             {
-              "id": "fk_2ab788bf-2ef4-482d-b09f-7f643b1b254d",
+              "id": "fk_214d8d3f-e3a2-43aa-84e2-8556d900b231",
               "name": "0,1:1,n",
               "type": "INT",
               "isForeignKey": true,
               "foreignKeyProps": {
-                "foreignKeyGroupId": "3e9d2711-6122-479a-8f5b-2b7ad29c7b83",
+                "foreignKeyGroupId": "0395bda0-d934-46ac-b92a-2305e0d4dcf1",
                 "sourceTableId": "450793ea-66db-456f-acb6-0f4762818db4",
                 "columns": [
                   {
-                    "id": "fk_fbc326db-90fe-46f6-8ae7-b7478b64e7ff",
+                    "id": "fk_bc67fe88-59a6-4bdd-8bfb-7e7ec56f55d5",
                     "name": "0,1:1,n",
                     "type": "INT"
                   }
@@ -279,7 +279,7 @@
           "label": "E04",
           "columns": [
             {
-              "id": "fbc326db-90fe-46f6-8ae7-b7478b64e7ff",
+              "id": "bc67fe88-59a6-4bdd-8bfb-7e7ec56f55d5",
               "name": "E04_id",
               "position": 0,
               "type": "INT",
@@ -309,7 +309,7 @@
           "label": "E05",
           "columns": [
             {
-              "id": "566c8cc3-d588-4a0e-9620-a1434b8474d3",
+              "id": "e9463265-02dc-47e8-92f0-dd6373893298",
               "name": "E05_id",
               "position": 0,
               "type": "INT",
@@ -339,7 +339,7 @@
           "label": "E06",
           "columns": [
             {
-              "id": "24f498fb-2650-47ef-b1cd-83100cbacbd1",
+              "id": "95427131-6eb8-4740-9f61-28ce976359c5",
               "name": "E06_id",
               "position": 0,
               "type": "INT",
@@ -369,7 +369,7 @@
           "label": "E07",
           "columns": [
             {
-              "id": "539d9454-c324-4483-bffe-1df03117f605",
+              "id": "10e37328-7490-40fc-bbc3-d7ae370f2a97",
               "name": "E07_id",
               "position": 0,
               "type": "INT",
@@ -399,7 +399,7 @@
           "label": "E08",
           "columns": [
             {
-              "id": "0df025fd-3926-47bf-b04c-7394cc79d881",
+              "id": "e14eca68-3687-495f-8c57-020611847358",
               "name": "E08_id",
               "position": 0,
               "type": "INT",
@@ -456,16 +456,16 @@
           "label": "1,n:1,n",
           "columns": [
             {
-              "id": "fk_21f24b80-7d9f-46a9-a0a8-44bdeefd6085",
+              "id": "fk_404aa9dd-d146-47ca-8c93-2253e4a6c500",
               "name": "e05",
               "type": "INT",
               "isForeignKey": true,
               "foreignKeyProps": {
-                "foreignKeyGroupId": "0d064c4e-29df-4784-baf2-bc9cd768c77d",
+                "foreignKeyGroupId": "1f92e1c9-98af-4c12-9afe-cbbc5e96aa38",
                 "sourceTableId": "9d4f0ce2-b9b7-4637-9e77-433b70276feb",
                 "columns": [
                   {
-                    "id": "fk_566c8cc3-d588-4a0e-9620-a1434b8474d3",
+                    "id": "fk_e9463265-02dc-47e8-92f0-dd6373893298",
                     "name": "E05",
                     "type": "INT"
                   }
@@ -475,16 +475,16 @@
               "position": 0
             },
             {
-              "id": "fk_3303841f-4110-468b-8c63-e4ca0a354829",
+              "id": "fk_b6bb7189-c8f7-4f29-a4c1-148c0f72c4cc",
               "name": "e06",
               "type": "INT",
               "isForeignKey": true,
               "foreignKeyProps": {
-                "foreignKeyGroupId": "b29dfef9-5f24-4b6e-9cd6-9a643345157c",
+                "foreignKeyGroupId": "e25d6697-1540-4d2e-8d27-2380afc5b2cb",
                 "sourceTableId": "c756f97e-f60f-418f-a099-150ea681807a",
                 "columns": [
                   {
-                    "id": "fk_24f498fb-2650-47ef-b1cd-83100cbacbd1",
+                    "id": "fk_95427131-6eb8-4740-9f61-28ce976359c5",
                     "name": "E06",
                     "type": "INT"
                   }
@@ -542,16 +542,16 @@
           "label": "0,n:1,n",
           "columns": [
             {
-              "id": "fk_6081c7b8-867e-4427-ad11-854521275fbd",
+              "id": "fk_c79eabf1-5e59-4642-9b29-3a3d381bee7d",
               "name": "e05",
               "type": "INT",
               "isForeignKey": true,
               "foreignKeyProps": {
-                "foreignKeyGroupId": "55faf179-d348-46ca-9eaa-1801ce43b8fe",
+                "foreignKeyGroupId": "985ab9c6-9032-46fa-a71c-ce7237d034d9",
                 "sourceTableId": "9d4f0ce2-b9b7-4637-9e77-433b70276feb",
                 "columns": [
                   {
-                    "id": "fk_566c8cc3-d588-4a0e-9620-a1434b8474d3",
+                    "id": "fk_e9463265-02dc-47e8-92f0-dd6373893298",
                     "name": "E05",
                     "type": "INT"
                   }
@@ -561,16 +561,16 @@
               "position": 0
             },
             {
-              "id": "fk_3b7ee480-3eaf-4b9e-8e4f-2f5c86a07c0f",
+              "id": "fk_5c13ced5-9209-401f-90ab-f138c2c50eeb",
               "name": "e06",
               "type": "INT",
               "isForeignKey": true,
               "foreignKeyProps": {
-                "foreignKeyGroupId": "c5faa0bd-5e73-4d33-8c33-fbaa179836c9",
+                "foreignKeyGroupId": "4dc9acd4-b5e5-4452-ae7f-f3cf5d88fe0c",
                 "sourceTableId": "c756f97e-f60f-418f-a099-150ea681807a",
                 "columns": [
                   {
-                    "id": "fk_24f498fb-2650-47ef-b1cd-83100cbacbd1",
+                    "id": "fk_95427131-6eb8-4740-9f61-28ce976359c5",
                     "name": "E06",
                     "type": "INT"
                   }
@@ -601,16 +601,16 @@
           "label": "0,n:0,n",
           "columns": [
             {
-              "id": "fk_08c946f5-9143-4bdb-b8ae-83477a42b84c",
+              "id": "fk_3747d3ea-a18c-4f91-9594-e6a9c4546d53",
               "name": "e05",
               "type": "INT",
               "isForeignKey": true,
               "foreignKeyProps": {
-                "foreignKeyGroupId": "8cd106d7-48de-4634-a6b7-113e2c36be83",
+                "foreignKeyGroupId": "af222196-b5c8-4b08-bf57-67906106bde7",
                 "sourceTableId": "9d4f0ce2-b9b7-4637-9e77-433b70276feb",
                 "columns": [
                   {
-                    "id": "fk_566c8cc3-d588-4a0e-9620-a1434b8474d3",
+                    "id": "fk_e9463265-02dc-47e8-92f0-dd6373893298",
                     "name": "E05",
                     "type": "INT"
                   }
@@ -620,16 +620,16 @@
               "position": 0
             },
             {
-              "id": "fk_152bc439-5e9e-447c-a56f-e7cc5daf1064",
+              "id": "fk_fba66fe2-581d-4506-8a28-1b7964aa3c00",
               "name": "e06",
               "type": "INT",
               "isForeignKey": true,
               "foreignKeyProps": {
-                "foreignKeyGroupId": "e80fc8c8-bdf9-4fe3-9f04-242844554ae8",
+                "foreignKeyGroupId": "aa3cff80-cb96-487b-bee4-85410b7113e4",
                 "sourceTableId": "c756f97e-f60f-418f-a099-150ea681807a",
                 "columns": [
                   {
-                    "id": "fk_24f498fb-2650-47ef-b1cd-83100cbacbd1",
+                    "id": "fk_95427131-6eb8-4740-9f61-28ce976359c5",
                     "name": "E06",
                     "type": "INT"
                   }
@@ -660,16 +660,16 @@
           "label": "E01_1:1AttM",
           "columns": [
             {
-              "id": "fk_4689faff-eb28-44f3-9e8e-77da64eca451",
+              "id": "fk_5e5ac800-4246-431d-b2b7-cd34b881dae0",
               "name": "1:1attm",
               "type": "INT",
               "isForeignKey": true,
               "foreignKeyProps": {
-                "foreignKeyGroupId": "64bdd561-e7b9-4f93-bb83-16715027cf46",
+                "foreignKeyGroupId": "1b517199-ccb8-4dde-b29a-456c703f2356",
                 "sourceTableId": "b4144001-7a30-46f0-bb59-3600b19b0354",
                 "columns": [
                   {
-                    "id": "fk_387f5916-29be-4141-88ba-a5176f626114",
+                    "id": "fk_38b5f56d-ec9d-4bd2-b327-a4cc4e0e62bc",
                     "name": "E01",
                     "type": "INT"
                   }
@@ -679,7 +679,7 @@
               "position": 0
             },
             {
-              "id": "60f08f7e-aa8d-4099-8748-23df1bfd1505",
+              "id": "c13ebc20-8eff-4f08-8aae-8929c582dfb7",
               "name": "1:1attm",
               "position": 1,
               "type": "None",
@@ -708,16 +708,16 @@
           "label": "E03_1:nAttM",
           "columns": [
             {
-              "id": "fk_82c3b9fb-9413-47ec-bb7a-91fb72718c27",
+              "id": "fk_a793417f-c33c-43fb-9889-d8b9643e84c1",
               "name": "1:nattm",
               "type": "INT",
               "isForeignKey": true,
               "foreignKeyProps": {
-                "foreignKeyGroupId": "63e87828-5dbe-4e28-bd7b-5e49184130f3",
+                "foreignKeyGroupId": "a6751d83-6615-44ab-84ae-6144c730d153",
                 "sourceTableId": "46a09c42-7ba4-46c3-aef0-04f9f37f819d",
                 "columns": [
                   {
-                    "id": "fk_c3c4b086-7b34-463d-9395-dce80d472cab",
+                    "id": "fk_225490c4-ce08-4b63-b0a5-3c55597f2035",
                     "name": "E03",
                     "type": "INT"
                   }
@@ -727,7 +727,7 @@
               "position": 0
             },
             {
-              "id": "b3705dd6-65bb-4cad-ac5f-9099dbbb129d",
+              "id": "0927f4ec-2d1d-47a4-ab25-024d43d98814",
               "name": "1:nattm",
               "position": 1,
               "type": "None",
@@ -756,16 +756,16 @@
           "label": "E08_0:0AttM",
           "columns": [
             {
-              "id": "fk_68b15b9b-75d6-4b4d-ad1f-cefd74029fa5",
+              "id": "fk_c73cdf80-65ed-4f5e-9010-569f284e372c",
               "name": "0:0attm",
               "type": "INT",
               "isForeignKey": true,
               "foreignKeyProps": {
-                "foreignKeyGroupId": "5b3bc3a5-8477-4b65-910f-87860f30927d",
+                "foreignKeyGroupId": "cebed8b8-ea7c-4c09-88a8-b62ec0b5ab19",
                 "sourceTableId": "5893c77e-ce34-462c-af9b-9bc2dc3d5a09",
                 "columns": [
                   {
-                    "id": "fk_0df025fd-3926-47bf-b04c-7394cc79d881",
+                    "id": "fk_e14eca68-3687-495f-8c57-020611847358",
                     "name": "E08",
                     "type": "INT"
                   }
@@ -775,7 +775,7 @@
               "position": 0
             },
             {
-              "id": "aac1d9ad-e24d-46eb-bea2-d276f75483d2",
+              "id": "582fb5fa-b68a-418b-a4c4-b869b0d0444b",
               "name": "0:0attm",
               "position": 1,
               "type": "None",
@@ -804,21 +804,21 @@
           "label": "1,n:1,n_m:nAttM",
           "columns": [
             {
-              "id": "fk_1d9add15-da10-48da-8c68-de5d242dfc57",
+              "id": "fk_84abbf0a-d7f3-4e33-8e27-d2eeb099cd8a",
               "name": "m:nattm",
               "type": "INT",
               "isForeignKey": true,
               "foreignKeyProps": {
-                "foreignKeyGroupId": "9be0ef55-9f34-41cb-978b-58fc1841c942",
+                "foreignKeyGroupId": "fd63782f-911c-4f8a-8590-e348b1e71ede",
                 "sourceTableId": "21f0d55b-b12a-4799-9b1f-4433d22fb87e",
                 "columns": [
                   {
-                    "id": "fk_fk_21f24b80-7d9f-46a9-a0a8-44bdeefd6085",
+                    "id": "fk_fk_404aa9dd-d146-47ca-8c93-2253e4a6c500",
                     "name": "1,n:1,n_1",
                     "type": "INT"
                   },
                   {
-                    "id": "fk_fk_3303841f-4110-468b-8c63-e4ca0a354829",
+                    "id": "fk_fk_b6bb7189-c8f7-4f29-a4c1-148c0f72c4cc",
                     "name": "1,n:1,n_2",
                     "type": "INT"
                   }
@@ -828,7 +828,7 @@
               "position": 0
             },
             {
-              "id": "332452bd-991c-4d2e-a10d-b8ece0cd588d",
+              "id": "da526469-b553-4762-bcea-4baba8f89a99",
               "name": "m:nattm",
               "position": 1,
               "type": "None",
@@ -853,21 +853,21 @@
     ],
     "edges": [
       {
-        "id": "509aaba6-267a-4e3d-9ed7-6fa1a1d4d6f6->b4144001-7a30-46f0-bb59-3600b19b0354_1240d7c2-1feb-4018-814c-9def10833472",
+        "id": "509aaba6-267a-4e3d-9ed7-6fa1a1d4d6f6->b4144001-7a30-46f0-bb59-3600b19b0354_538ed0c6-c481-4bb5-93f2-4234fc15c9d4",
         "type": "Relational",
         "source": "509aaba6-267a-4e3d-9ed7-6fa1a1d4d6f6",
         "target": "b4144001-7a30-46f0-bb59-3600b19b0354",
-        "targetHandle": "foreign-key-handle-1240d7c2-1feb-4018-814c-9def10833472",
+        "targetHandle": "foreign-key-handle-538ed0c6-c481-4bb5-93f2-4234fc15c9d4",
         "markerStart": {
           "type": "arrow"
         },
         "data": {
           "foreignKeyProps": {
-            "foreignKeyGroupId": "1240d7c2-1feb-4018-814c-9def10833472",
+            "foreignKeyGroupId": "538ed0c6-c481-4bb5-93f2-4234fc15c9d4",
             "sourceTableId": "509aaba6-267a-4e3d-9ed7-6fa1a1d4d6f6",
             "columns": [
               {
-                "id": "fk_a7114437-375f-4c24-ae05-6c7483f1fcb3",
+                "id": "fk_d67de819-ea4a-426b-8558-3cb6d83db8ef",
                 "name": "1,1:1,1",
                 "type": "INT"
               }
@@ -876,21 +876,21 @@
         }
       },
       {
-        "id": "450793ea-66db-456f-acb6-0f4762818db4->46a09c42-7ba4-46c3-aef0-04f9f37f819d_dec7c3cd-2132-4adb-bd74-a70b33092017",
+        "id": "450793ea-66db-456f-acb6-0f4762818db4->46a09c42-7ba4-46c3-aef0-04f9f37f819d_a167c267-70b0-420d-88c1-6c62ee8ce590",
         "type": "Relational",
         "source": "450793ea-66db-456f-acb6-0f4762818db4",
         "target": "46a09c42-7ba4-46c3-aef0-04f9f37f819d",
-        "targetHandle": "foreign-key-handle-dec7c3cd-2132-4adb-bd74-a70b33092017",
+        "targetHandle": "foreign-key-handle-a167c267-70b0-420d-88c1-6c62ee8ce590",
         "markerStart": {
           "type": "arrow"
         },
         "data": {
           "foreignKeyProps": {
-            "foreignKeyGroupId": "dec7c3cd-2132-4adb-bd74-a70b33092017",
+            "foreignKeyGroupId": "a167c267-70b0-420d-88c1-6c62ee8ce590",
             "sourceTableId": "450793ea-66db-456f-acb6-0f4762818db4",
             "columns": [
               {
-                "id": "fk_fbc326db-90fe-46f6-8ae7-b7478b64e7ff",
+                "id": "fk_bc67fe88-59a6-4bdd-8bfb-7e7ec56f55d5",
                 "name": "1,1:1,n",
                 "type": "INT"
               }
@@ -899,21 +899,21 @@
         }
       },
       {
-        "id": "9d4f0ce2-b9b7-4637-9e77-433b70276feb->21f0d55b-b12a-4799-9b1f-4433d22fb87e_0d064c4e-29df-4784-baf2-bc9cd768c77d",
+        "id": "9d4f0ce2-b9b7-4637-9e77-433b70276feb->21f0d55b-b12a-4799-9b1f-4433d22fb87e_1f92e1c9-98af-4c12-9afe-cbbc5e96aa38",
         "type": "Relational",
         "source": "9d4f0ce2-b9b7-4637-9e77-433b70276feb",
         "target": "21f0d55b-b12a-4799-9b1f-4433d22fb87e",
-        "targetHandle": "foreign-key-handle-0d064c4e-29df-4784-baf2-bc9cd768c77d",
+        "targetHandle": "foreign-key-handle-1f92e1c9-98af-4c12-9afe-cbbc5e96aa38",
         "markerStart": {
           "type": "arrow"
         },
         "data": {
           "foreignKeyProps": {
-            "foreignKeyGroupId": "0d064c4e-29df-4784-baf2-bc9cd768c77d",
+            "foreignKeyGroupId": "1f92e1c9-98af-4c12-9afe-cbbc5e96aa38",
             "sourceTableId": "9d4f0ce2-b9b7-4637-9e77-433b70276feb",
             "columns": [
               {
-                "id": "fk_566c8cc3-d588-4a0e-9620-a1434b8474d3",
+                "id": "fk_e9463265-02dc-47e8-92f0-dd6373893298",
                 "name": "E05",
                 "type": "INT"
               }
@@ -922,21 +922,21 @@
         }
       },
       {
-        "id": "c756f97e-f60f-418f-a099-150ea681807a->21f0d55b-b12a-4799-9b1f-4433d22fb87e_b29dfef9-5f24-4b6e-9cd6-9a643345157c",
+        "id": "c756f97e-f60f-418f-a099-150ea681807a->21f0d55b-b12a-4799-9b1f-4433d22fb87e_e25d6697-1540-4d2e-8d27-2380afc5b2cb",
         "type": "Relational",
         "source": "c756f97e-f60f-418f-a099-150ea681807a",
         "target": "21f0d55b-b12a-4799-9b1f-4433d22fb87e",
-        "targetHandle": "foreign-key-handle-b29dfef9-5f24-4b6e-9cd6-9a643345157c",
+        "targetHandle": "foreign-key-handle-e25d6697-1540-4d2e-8d27-2380afc5b2cb",
         "markerStart": {
           "type": "arrow"
         },
         "data": {
           "foreignKeyProps": {
-            "foreignKeyGroupId": "b29dfef9-5f24-4b6e-9cd6-9a643345157c",
+            "foreignKeyGroupId": "e25d6697-1540-4d2e-8d27-2380afc5b2cb",
             "sourceTableId": "c756f97e-f60f-418f-a099-150ea681807a",
             "columns": [
               {
-                "id": "fk_24f498fb-2650-47ef-b1cd-83100cbacbd1",
+                "id": "fk_95427131-6eb8-4740-9f61-28ce976359c5",
                 "name": "E06",
                 "type": "INT"
               }
@@ -945,21 +945,21 @@
         }
       },
       {
-        "id": "b4144001-7a30-46f0-bb59-3600b19b0354->509aaba6-267a-4e3d-9ed7-6fa1a1d4d6f6_109eb1b3-a4c3-4d2b-883f-4a56345a6046",
+        "id": "b4144001-7a30-46f0-bb59-3600b19b0354->509aaba6-267a-4e3d-9ed7-6fa1a1d4d6f6_c911bea0-5ca2-4fd2-80e5-76aedf6a8841",
         "type": "Relational",
         "source": "b4144001-7a30-46f0-bb59-3600b19b0354",
         "target": "509aaba6-267a-4e3d-9ed7-6fa1a1d4d6f6",
-        "targetHandle": "foreign-key-handle-109eb1b3-a4c3-4d2b-883f-4a56345a6046",
+        "targetHandle": "foreign-key-handle-c911bea0-5ca2-4fd2-80e5-76aedf6a8841",
         "markerStart": {
           "type": "arrow"
         },
         "data": {
           "foreignKeyProps": {
-            "foreignKeyGroupId": "109eb1b3-a4c3-4d2b-883f-4a56345a6046",
+            "foreignKeyGroupId": "c911bea0-5ca2-4fd2-80e5-76aedf6a8841",
             "sourceTableId": "b4144001-7a30-46f0-bb59-3600b19b0354",
             "columns": [
               {
-                "id": "fk_387f5916-29be-4141-88ba-a5176f626114",
+                "id": "fk_38b5f56d-ec9d-4bd2-b327-a4cc4e0e62bc",
                 "name": "0,1:1,1",
                 "type": "INT"
               }
@@ -968,21 +968,21 @@
         }
       },
       {
-        "id": "450793ea-66db-456f-acb6-0f4762818db4->46a09c42-7ba4-46c3-aef0-04f9f37f819d_54ba522c-d52d-4456-817a-7b7c755d57c0",
+        "id": "450793ea-66db-456f-acb6-0f4762818db4->46a09c42-7ba4-46c3-aef0-04f9f37f819d_1655d8ba-dd2d-41be-8dfd-8ac04f62436c",
         "type": "Relational",
         "source": "450793ea-66db-456f-acb6-0f4762818db4",
         "target": "46a09c42-7ba4-46c3-aef0-04f9f37f819d",
-        "targetHandle": "foreign-key-handle-54ba522c-d52d-4456-817a-7b7c755d57c0",
+        "targetHandle": "foreign-key-handle-1655d8ba-dd2d-41be-8dfd-8ac04f62436c",
         "markerStart": {
           "type": "arrow"
         },
         "data": {
           "foreignKeyProps": {
-            "foreignKeyGroupId": "54ba522c-d52d-4456-817a-7b7c755d57c0",
+            "foreignKeyGroupId": "1655d8ba-dd2d-41be-8dfd-8ac04f62436c",
             "sourceTableId": "450793ea-66db-456f-acb6-0f4762818db4",
             "columns": [
               {
-                "id": "fk_fbc326db-90fe-46f6-8ae7-b7478b64e7ff",
+                "id": "fk_bc67fe88-59a6-4bdd-8bfb-7e7ec56f55d5",
                 "name": "1,1:0,n",
                 "type": "INT"
               }
@@ -991,21 +991,21 @@
         }
       },
       {
-        "id": "450793ea-66db-456f-acb6-0f4762818db4->46a09c42-7ba4-46c3-aef0-04f9f37f819d_3e9d2711-6122-479a-8f5b-2b7ad29c7b83",
+        "id": "450793ea-66db-456f-acb6-0f4762818db4->46a09c42-7ba4-46c3-aef0-04f9f37f819d_0395bda0-d934-46ac-b92a-2305e0d4dcf1",
         "type": "Relational",
         "source": "450793ea-66db-456f-acb6-0f4762818db4",
         "target": "46a09c42-7ba4-46c3-aef0-04f9f37f819d",
-        "targetHandle": "foreign-key-handle-3e9d2711-6122-479a-8f5b-2b7ad29c7b83",
+        "targetHandle": "foreign-key-handle-0395bda0-d934-46ac-b92a-2305e0d4dcf1",
         "markerStart": {
           "type": "arrow"
         },
         "data": {
           "foreignKeyProps": {
-            "foreignKeyGroupId": "3e9d2711-6122-479a-8f5b-2b7ad29c7b83",
+            "foreignKeyGroupId": "0395bda0-d934-46ac-b92a-2305e0d4dcf1",
             "sourceTableId": "450793ea-66db-456f-acb6-0f4762818db4",
             "columns": [
               {
-                "id": "fk_fbc326db-90fe-46f6-8ae7-b7478b64e7ff",
+                "id": "fk_bc67fe88-59a6-4bdd-8bfb-7e7ec56f55d5",
                 "name": "0,1:1,n",
                 "type": "INT"
               }
@@ -1014,21 +1014,21 @@
         }
       },
       {
-        "id": "9d4f0ce2-b9b7-4637-9e77-433b70276feb->0ae44f36-cb34-4a19-9d14-61d546e13f6b_55faf179-d348-46ca-9eaa-1801ce43b8fe",
+        "id": "9d4f0ce2-b9b7-4637-9e77-433b70276feb->0ae44f36-cb34-4a19-9d14-61d546e13f6b_985ab9c6-9032-46fa-a71c-ce7237d034d9",
         "type": "Relational",
         "source": "9d4f0ce2-b9b7-4637-9e77-433b70276feb",
         "target": "0ae44f36-cb34-4a19-9d14-61d546e13f6b",
-        "targetHandle": "foreign-key-handle-55faf179-d348-46ca-9eaa-1801ce43b8fe",
+        "targetHandle": "foreign-key-handle-985ab9c6-9032-46fa-a71c-ce7237d034d9",
         "markerStart": {
           "type": "arrow"
         },
         "data": {
           "foreignKeyProps": {
-            "foreignKeyGroupId": "55faf179-d348-46ca-9eaa-1801ce43b8fe",
+            "foreignKeyGroupId": "985ab9c6-9032-46fa-a71c-ce7237d034d9",
             "sourceTableId": "9d4f0ce2-b9b7-4637-9e77-433b70276feb",
             "columns": [
               {
-                "id": "fk_566c8cc3-d588-4a0e-9620-a1434b8474d3",
+                "id": "fk_e9463265-02dc-47e8-92f0-dd6373893298",
                 "name": "E05",
                 "type": "INT"
               }
@@ -1037,21 +1037,21 @@
         }
       },
       {
-        "id": "c756f97e-f60f-418f-a099-150ea681807a->0ae44f36-cb34-4a19-9d14-61d546e13f6b_c5faa0bd-5e73-4d33-8c33-fbaa179836c9",
+        "id": "c756f97e-f60f-418f-a099-150ea681807a->0ae44f36-cb34-4a19-9d14-61d546e13f6b_4dc9acd4-b5e5-4452-ae7f-f3cf5d88fe0c",
         "type": "Relational",
         "source": "c756f97e-f60f-418f-a099-150ea681807a",
         "target": "0ae44f36-cb34-4a19-9d14-61d546e13f6b",
-        "targetHandle": "foreign-key-handle-c5faa0bd-5e73-4d33-8c33-fbaa179836c9",
+        "targetHandle": "foreign-key-handle-4dc9acd4-b5e5-4452-ae7f-f3cf5d88fe0c",
         "markerStart": {
           "type": "arrow"
         },
         "data": {
           "foreignKeyProps": {
-            "foreignKeyGroupId": "c5faa0bd-5e73-4d33-8c33-fbaa179836c9",
+            "foreignKeyGroupId": "4dc9acd4-b5e5-4452-ae7f-f3cf5d88fe0c",
             "sourceTableId": "c756f97e-f60f-418f-a099-150ea681807a",
             "columns": [
               {
-                "id": "fk_24f498fb-2650-47ef-b1cd-83100cbacbd1",
+                "id": "fk_95427131-6eb8-4740-9f61-28ce976359c5",
                 "name": "E06",
                 "type": "INT"
               }
@@ -1060,21 +1060,21 @@
         }
       },
       {
-        "id": "b4144001-7a30-46f0-bb59-3600b19b0354->509aaba6-267a-4e3d-9ed7-6fa1a1d4d6f6_0e9bab73-f75e-4022-862e-4ed3f8023566",
+        "id": "b4144001-7a30-46f0-bb59-3600b19b0354->509aaba6-267a-4e3d-9ed7-6fa1a1d4d6f6_778ef1fa-a70e-42f9-8076-1162073a4f2d",
         "type": "Relational",
         "source": "b4144001-7a30-46f0-bb59-3600b19b0354",
         "target": "509aaba6-267a-4e3d-9ed7-6fa1a1d4d6f6",
-        "targetHandle": "foreign-key-handle-0e9bab73-f75e-4022-862e-4ed3f8023566",
+        "targetHandle": "foreign-key-handle-778ef1fa-a70e-42f9-8076-1162073a4f2d",
         "markerStart": {
           "type": "arrow"
         },
         "data": {
           "foreignKeyProps": {
-            "foreignKeyGroupId": "0e9bab73-f75e-4022-862e-4ed3f8023566",
+            "foreignKeyGroupId": "778ef1fa-a70e-42f9-8076-1162073a4f2d",
             "sourceTableId": "b4144001-7a30-46f0-bb59-3600b19b0354",
             "columns": [
               {
-                "id": "fk_387f5916-29be-4141-88ba-a5176f626114",
+                "id": "fk_38b5f56d-ec9d-4bd2-b327-a4cc4e0e62bc",
                 "name": "0,1:0,1",
                 "type": "INT"
               }
@@ -1083,21 +1083,21 @@
         }
       },
       {
-        "id": "9d4f0ce2-b9b7-4637-9e77-433b70276feb->1d5f7559-a3a6-48ff-b668-a64ac0967345_8cd106d7-48de-4634-a6b7-113e2c36be83",
+        "id": "9d4f0ce2-b9b7-4637-9e77-433b70276feb->1d5f7559-a3a6-48ff-b668-a64ac0967345_af222196-b5c8-4b08-bf57-67906106bde7",
         "type": "Relational",
         "source": "9d4f0ce2-b9b7-4637-9e77-433b70276feb",
         "target": "1d5f7559-a3a6-48ff-b668-a64ac0967345",
-        "targetHandle": "foreign-key-handle-8cd106d7-48de-4634-a6b7-113e2c36be83",
+        "targetHandle": "foreign-key-handle-af222196-b5c8-4b08-bf57-67906106bde7",
         "markerStart": {
           "type": "arrow"
         },
         "data": {
           "foreignKeyProps": {
-            "foreignKeyGroupId": "8cd106d7-48de-4634-a6b7-113e2c36be83",
+            "foreignKeyGroupId": "af222196-b5c8-4b08-bf57-67906106bde7",
             "sourceTableId": "9d4f0ce2-b9b7-4637-9e77-433b70276feb",
             "columns": [
               {
-                "id": "fk_566c8cc3-d588-4a0e-9620-a1434b8474d3",
+                "id": "fk_e9463265-02dc-47e8-92f0-dd6373893298",
                 "name": "E05",
                 "type": "INT"
               }
@@ -1106,21 +1106,21 @@
         }
       },
       {
-        "id": "c756f97e-f60f-418f-a099-150ea681807a->1d5f7559-a3a6-48ff-b668-a64ac0967345_e80fc8c8-bdf9-4fe3-9f04-242844554ae8",
+        "id": "c756f97e-f60f-418f-a099-150ea681807a->1d5f7559-a3a6-48ff-b668-a64ac0967345_aa3cff80-cb96-487b-bee4-85410b7113e4",
         "type": "Relational",
         "source": "c756f97e-f60f-418f-a099-150ea681807a",
         "target": "1d5f7559-a3a6-48ff-b668-a64ac0967345",
-        "targetHandle": "foreign-key-handle-e80fc8c8-bdf9-4fe3-9f04-242844554ae8",
+        "targetHandle": "foreign-key-handle-aa3cff80-cb96-487b-bee4-85410b7113e4",
         "markerStart": {
           "type": "arrow"
         },
         "data": {
           "foreignKeyProps": {
-            "foreignKeyGroupId": "e80fc8c8-bdf9-4fe3-9f04-242844554ae8",
+            "foreignKeyGroupId": "aa3cff80-cb96-487b-bee4-85410b7113e4",
             "sourceTableId": "c756f97e-f60f-418f-a099-150ea681807a",
             "columns": [
               {
-                "id": "fk_24f498fb-2650-47ef-b1cd-83100cbacbd1",
+                "id": "fk_95427131-6eb8-4740-9f61-28ce976359c5",
                 "name": "E06",
                 "type": "INT"
               }
@@ -1129,21 +1129,21 @@
         }
       },
       {
-        "id": "b4144001-7a30-46f0-bb59-3600b19b0354->79f0021e-e1d5-4dd4-acab-df27bef526df_64bdd561-e7b9-4f93-bb83-16715027cf46",
+        "id": "b4144001-7a30-46f0-bb59-3600b19b0354->79f0021e-e1d5-4dd4-acab-df27bef526df_1b517199-ccb8-4dde-b29a-456c703f2356",
         "type": "Relational",
         "source": "b4144001-7a30-46f0-bb59-3600b19b0354",
         "target": "79f0021e-e1d5-4dd4-acab-df27bef526df",
-        "targetHandle": "foreign-key-handle-64bdd561-e7b9-4f93-bb83-16715027cf46",
+        "targetHandle": "foreign-key-handle-1b517199-ccb8-4dde-b29a-456c703f2356",
         "markerStart": {
           "type": "arrow"
         },
         "data": {
           "foreignKeyProps": {
-            "foreignKeyGroupId": "64bdd561-e7b9-4f93-bb83-16715027cf46",
+            "foreignKeyGroupId": "1b517199-ccb8-4dde-b29a-456c703f2356",
             "sourceTableId": "b4144001-7a30-46f0-bb59-3600b19b0354",
             "columns": [
               {
-                "id": "fk_387f5916-29be-4141-88ba-a5176f626114",
+                "id": "fk_38b5f56d-ec9d-4bd2-b327-a4cc4e0e62bc",
                 "name": "E01",
                 "type": "INT"
               }
@@ -1152,21 +1152,21 @@
         }
       },
       {
-        "id": "46a09c42-7ba4-46c3-aef0-04f9f37f819d->3cd9fe77-8c3f-40ed-b8c2-458de5fc758a_63e87828-5dbe-4e28-bd7b-5e49184130f3",
+        "id": "46a09c42-7ba4-46c3-aef0-04f9f37f819d->3cd9fe77-8c3f-40ed-b8c2-458de5fc758a_a6751d83-6615-44ab-84ae-6144c730d153",
         "type": "Relational",
         "source": "46a09c42-7ba4-46c3-aef0-04f9f37f819d",
         "target": "3cd9fe77-8c3f-40ed-b8c2-458de5fc758a",
-        "targetHandle": "foreign-key-handle-63e87828-5dbe-4e28-bd7b-5e49184130f3",
+        "targetHandle": "foreign-key-handle-a6751d83-6615-44ab-84ae-6144c730d153",
         "markerStart": {
           "type": "arrow"
         },
         "data": {
           "foreignKeyProps": {
-            "foreignKeyGroupId": "63e87828-5dbe-4e28-bd7b-5e49184130f3",
+            "foreignKeyGroupId": "a6751d83-6615-44ab-84ae-6144c730d153",
             "sourceTableId": "46a09c42-7ba4-46c3-aef0-04f9f37f819d",
             "columns": [
               {
-                "id": "fk_c3c4b086-7b34-463d-9395-dce80d472cab",
+                "id": "fk_225490c4-ce08-4b63-b0a5-3c55597f2035",
                 "name": "E03",
                 "type": "INT"
               }
@@ -1175,21 +1175,21 @@
         }
       },
       {
-        "id": "5893c77e-ce34-462c-af9b-9bc2dc3d5a09->b6cc343a-6596-40ef-97f3-b54d817e91d4_5b3bc3a5-8477-4b65-910f-87860f30927d",
+        "id": "5893c77e-ce34-462c-af9b-9bc2dc3d5a09->b6cc343a-6596-40ef-97f3-b54d817e91d4_cebed8b8-ea7c-4c09-88a8-b62ec0b5ab19",
         "type": "Relational",
         "source": "5893c77e-ce34-462c-af9b-9bc2dc3d5a09",
         "target": "b6cc343a-6596-40ef-97f3-b54d817e91d4",
-        "targetHandle": "foreign-key-handle-5b3bc3a5-8477-4b65-910f-87860f30927d",
+        "targetHandle": "foreign-key-handle-cebed8b8-ea7c-4c09-88a8-b62ec0b5ab19",
         "markerStart": {
           "type": "arrow"
         },
         "data": {
           "foreignKeyProps": {
-            "foreignKeyGroupId": "5b3bc3a5-8477-4b65-910f-87860f30927d",
+            "foreignKeyGroupId": "cebed8b8-ea7c-4c09-88a8-b62ec0b5ab19",
             "sourceTableId": "5893c77e-ce34-462c-af9b-9bc2dc3d5a09",
             "columns": [
               {
-                "id": "fk_0df025fd-3926-47bf-b04c-7394cc79d881",
+                "id": "fk_e14eca68-3687-495f-8c57-020611847358",
                 "name": "E08",
                 "type": "INT"
               }
@@ -1198,26 +1198,26 @@
         }
       },
       {
-        "id": "21f0d55b-b12a-4799-9b1f-4433d22fb87e->f2565002-5bda-4854-9724-d59fb93de978_9be0ef55-9f34-41cb-978b-58fc1841c942",
+        "id": "21f0d55b-b12a-4799-9b1f-4433d22fb87e->f2565002-5bda-4854-9724-d59fb93de978_fd63782f-911c-4f8a-8590-e348b1e71ede",
         "type": "Relational",
         "source": "21f0d55b-b12a-4799-9b1f-4433d22fb87e",
         "target": "f2565002-5bda-4854-9724-d59fb93de978",
-        "targetHandle": "foreign-key-handle-9be0ef55-9f34-41cb-978b-58fc1841c942",
+        "targetHandle": "foreign-key-handle-fd63782f-911c-4f8a-8590-e348b1e71ede",
         "markerStart": {
           "type": "arrow"
         },
         "data": {
           "foreignKeyProps": {
-            "foreignKeyGroupId": "9be0ef55-9f34-41cb-978b-58fc1841c942",
+            "foreignKeyGroupId": "fd63782f-911c-4f8a-8590-e348b1e71ede",
             "sourceTableId": "21f0d55b-b12a-4799-9b1f-4433d22fb87e",
             "columns": [
               {
-                "id": "fk_fk_21f24b80-7d9f-46a9-a0a8-44bdeefd6085",
+                "id": "fk_fk_404aa9dd-d146-47ca-8c93-2253e4a6c500",
                 "name": "1,n:1,n_1",
                 "type": "INT"
               },
               {
-                "id": "fk_fk_3303841f-4110-468b-8c63-e4ca0a354829",
+                "id": "fk_fk_b6bb7189-c8f7-4f29-a4c1-148c0f72c4cc",
                 "name": "1,n:1,n_2",
                 "type": "INT"
               }
@@ -1227,8 +1227,8 @@
       }
     ],
     "viewport": {
-      "x": 0,
-      "y": 0,
+      "x": -259.0330050558082,
+      "y": 29.414722274738267,
       "zoom": 1
     }
   }
