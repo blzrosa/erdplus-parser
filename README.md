@@ -27,6 +27,9 @@ The parser successfully maps the following ER diagram constructs to a relational
 > [!NOTE]
 > **N-ary Relationships**: Per the modern Erdplus format, true n-ary relationships are modeled using an associative entity. The parser correctly supports this standard associative entity pattern.
 
+> [!TIP]
+> The parser automatically generates all the primary keys, so there is no need to include an "column_id" in the ER modeling"
+
 ## How to Use
 
 The project is set up to batch-process files from the input directory.
